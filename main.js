@@ -4,7 +4,8 @@ function module() {
 	// 	orthographicContainer = document.getElementById('orthographic-container'),
 	// 	sectionContainer = document.getElementById('section-container'),
 
-	var	containersPadding = 15;
+	var	containersPadding = 15,
+		titleMargin = 10 + 20;
 
 
 	init();
@@ -12,7 +13,7 @@ function module() {
 	
 	function init() {
 		var scene = new THREE.Scene(),
-			elements = ['plane-container', 'perspective-container'],
+			elements = ['plane-container', 'perspective-container', 'orthographic-container', 'section-container'],
 			views = [],
 			viewAngle = 90,
 			aspect = window.innerWidth/window.innerHeight,
@@ -75,7 +76,14 @@ function module() {
 
 			var width = canvas.clientWidth;
 			var height = canvas.clientHeight;
+			// debugger;
+			views.forEach(function(v) {
+				// debugger;
+				var titleHeight = document.getElementById('bha-title').clientHeight,
+					panelHeaderHeight = document.getElementById('panel-header').clientHeight;
 
+				v.element.style.height = (window.innerHeight - titleHeight - 9 * containersPadding - titleMargin - 2 * panelHeaderHeight) / 2 + 'px'
+			})
 			if ( canvas.width !== width || canvas.height != height ) {
 
 				renderer.setSize( width, height, false );
