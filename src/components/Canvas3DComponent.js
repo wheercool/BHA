@@ -3,10 +3,10 @@
 import React from 'react';
 
 require('styles//Canvas3D.css');
+var store, scene = new THREE.Scene();
 
 var	containersPadding = 15,
-		titleMargin = 10 + 20,
-		console = document.getElementById('console');
+		titleMargin = 10 + 20;
 
 
 
@@ -28,48 +28,40 @@ var	containersPadding = 15,
 		        new THREE.PlaneGeometry(canvas1.width, canvas1.height),
 		        material1
 		      );
+		    mesh1.name = 'text'
 		    return mesh1;
 			
 	}
 
-	function init() {
-		var scene = new THREE.Scene(),
-			elements = ['plane-container', 'perspective-container', 'orthographic-container', 'section-container'],
-			views = [],
-			far = 1000,
-			canvas = document.getElementById('canvas3d-component'),
-			renderer = new THREE.WebGLRenderer( { canvas: canvas, antialias: true } ),
 
-			axes = new THREE.AxisHelper(30),
+	function addMeshes() {
+		var data = [];
 
-			spereGeometry = new THREE.SphereGeometry(60, 20, 1, 1),
-			planeMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: false});
-			
-			
-			
-
-			scene.add(axes)
-			
-			var f = Math.sin;
-			var count = 20000,
-				sx = 100,
-				sy = 100,
-				data = range(0,  Math.PI / 2, Math.PI/count).map(function(d) {
-					return new THREE.Vector3(sx * d, sy * f(d), 20 * f(d));
-				});
-
-			var curve = new THREE.SplineCurve3(
-				data
-				// new THREE.Vector3( 10, 0, 10 )
-			),
+			var fStore = store.filter(x => x.length > 0)
+				
+				fStore
+				.map(curvePoints => new THREE.SplineCurve3(curvePoints.map(x => new THREE.Vector3(x[0], x[1], x[2]))))
+				.forEach(curve => {
+					data = data.concat(curve.points)
+					var geometry = new THREE.TubeGeometry(
+					    curve,  //path
+					    64,    //segments
+					    2,     //radius
+					    8,     //radiusSegments
+					    false  //closed
+					);
+					var wellbore = createMesh(geometry);
+					wellbore.name = "wellbore"
+					scene.add(wellbore)
+				})
 
 
-			min = Infinity,
+
+			var min = Infinity,
 			max = -Infinity,
 			maxHeight = -Infinity,
 			size
 				
-
 			data.forEach(function(d) {
 
 				maxHeight = Math.max(maxHeight, d.y)
@@ -78,24 +70,20 @@ var	containersPadding = 15,
 				size = Math.max(Math.abs(min), Math.abs(max))
 			})
 
+			// alert(size)
 			var gridHelper = new THREE.GridHelper(size, 10 );
 			gridHelper.position.y = maxHeight + 10
+			gridHelper.name = 'grid';
+
 			scene.add( gridHelper );
 
-			var geometry = new THREE.TubeGeometry(
-			    curve,  //path
-			    64,    //segments
-			    2,     //radius
-			    8,     //radiusSegments
-			    false  //closed
-			);
+		
 
-			var wellbore = createMesh(geometry);
-			var bbox = new THREE.BoundingBoxHelper( wellbore, 0xeeeeee );
-			bbox.update();
-			scene.add( bbox );
+			// var bbox = new THREE.BoundingBoxHelper( wellbore, 0xeeeeee );
+			// bbox.update();
+			// scene.add( bbox );
 
-			scene.add(wellbore)
+			
 
 			var north = text('N')
 			north.position.set(-100, maxHeight + 10, -150);
@@ -120,6 +108,38 @@ var	containersPadding = 15,
 
 
 
+
+
+	}
+	function createMesh(geom) {
+			var mat = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: false});
+			var mesh = new THREE.Mesh(geom,mat);
+			return mesh;
+	}
+
+	function init() {
+			;
+
+			var elements = ['plane-container', 'perspective-container', 'orthographic-container', 'section-container'],
+			views = [],
+			far = 1000,
+			canvas = document.getElementById('canvas3d-component'),
+			renderer = new THREE.WebGLRenderer( { canvas: canvas, antialias: true } ),
+
+			axes = new THREE.AxisHelper(30),
+
+			spereGeometry = new THREE.SphereGeometry(60, 20, 1, 1),
+			planeMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: false});
+			
+			
+			
+
+			scene.add(axes)
+			
+			
+			addMeshes();
+
+			
 			
 			var cameras = [
 				new THREE.OrthographicCamera(-200, 200, -200, 200, -200, 1000),
@@ -189,11 +209,7 @@ var	containersPadding = 15,
 
 			animate();
 
-		function createMesh(geom) {
-			var mat = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: false});
-			var mesh = new THREE.Mesh(geom,mat);
-			return mesh;
-		}
+		
 
 		function updateSize() {
 
@@ -223,6 +239,9 @@ var	containersPadding = 15,
 		}
 
 		function render() {
+
+			
+
 			updateSize();
 
 			renderer.setClearColor( 0xffffff );
@@ -278,20 +297,14 @@ var	containersPadding = 15,
 
 	}
 
-	function range(a, b, step) {
-		var res = [];		
-		step = step || 1;
-		while (a < b) {
-			res.push(a);
-			a += step;
-		}
-		return res;
-	}
+	
 
 
 
 class Canvas3DComponent extends React.Component {
 	componentDidMount() {
+		store = this.props.data;
+
 		init();
 		// animate(this.refs.canvas)
 		// console.log(this.refs.canvas)
@@ -299,6 +312,22 @@ class Canvas3DComponent extends React.Component {
 		// window.addEventListener('resize', updateSize.bind(null, this.refs.canvas), false)
 	}
   render() {
+  	if (!scene) alert("Scene")
+  	// debugger;
+  	if (scene) {
+  		scene.children = [];
+  // 		scene.children.forEach(x => {
+		// 	console.log(x.type)
+		// 	// if (x.type == 'Mesh') {
+		// 		scene.remove(x);
+		// 	// }	
+		// }) 
+	}
+	store = this.props.data;
+	debugger;
+	if (scene) {
+			addMeshes();
+		}
     return (
       <canvas ref="canvas" id="canvas3d-component" className="canvas3d-component">
       </canvas>
