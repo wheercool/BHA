@@ -19,3 +19,23 @@ body {
   border-width: 1px 0;
   background: #666;
 }
+
+.panel {
+  background-color: transparent;
+}
+.panel-heading h3 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: normal;
+    width: 75%;
+    padding-top: 8px;
+}
+
+.container-fluid {
+    position: relative;
+}
+
+.panel {
+  color: black;
+}
