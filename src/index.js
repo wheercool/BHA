@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import App from './components/Main';
 
 
-import { Provider, connect } from 'react-redux'
+import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 // import todoApp from './reducers'
 
@@ -59,5 +59,6 @@ function range(a, b, step) {
 }
 
 
+
 // Render the main component into the dom
-ReactDOM.render(<Provider store={store}><App store={store}/></Provider>, document.getElementById('app'));
+ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('app'));

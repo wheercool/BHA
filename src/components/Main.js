@@ -4,26 +4,14 @@ require('styles/App.css');
 import React from 'react';
 import Canvas3D from './Canvas3DComponent'
 import WellboreList from './WellboreListComponent'
+import {connect} from 'react-redux'
 
 class AppComponent extends React.Component {
-	componentDidMount() {
-		this.props.store.subscribe(_ => {
-			this.setState(this.props.store.getState())
-		})
-	}
-	onSelectionChanged(name) {
 
-		this.props.store.dispatch({
-			type: 'TOGGLE_WELLBORE',
-			payload: {
-				name: name
-			}
-		});
-	}
   render() {
     return (
       <div className="index">
-      	<Canvas3D data={this.props.store.getState().wellbores.filter(x => x.isSelected).map(d=>d.trajectory)}></Canvas3D>
+      	<Canvas3D data={this.props.wellbores.filter(x => x.isSelected).map(d=>d.trajectory)}></Canvas3D>
         <div className="container-fluid">
 		<h1 id="bha-title">BHA View</h1>
 
@@ -33,8 +21,8 @@ class AppComponent extends React.Component {
 				<div id="panel-header" className="panel-heading">
 					<div className="panel-title">Project Explorer</div>
 				</div>
-				<WellboreList data={this.props.store.getState().wellbores}
-								onSelectionChanged={this.onSelectionChanged.bind(this)}/>
+				<WellboreList data={this.props.wellbores}
+								onSelectionChanged={this.props.onWellboreClick}/>
 			<div className="panel-footer">
 					<div className="well">
 						<div style={{color: 'red'}}>x axis (South)</div>
@@ -123,4 +111,18 @@ class AppComponent extends React.Component {
 AppComponent.defaultProps = {
 };
 
-export default AppComponent;
+let mapDispatch = (dispatch) => {
+	return {
+		onWellboreClick: (name) => {
+			debugger;
+			dispatch({
+				type: 'TOGGLE_WELLBORE',
+				payload: {
+					name: name
+				}
+			});
+		}
+	}
+}
+
+export default connect((state)=> state, mapDispatch)(AppComponent);

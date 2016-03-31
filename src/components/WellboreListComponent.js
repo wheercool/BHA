@@ -11,8 +11,8 @@ class WellboreListComponent extends React.Component {
 			<ul className="list-group">	
 				{
 					this.props.data.map((item,i) => (<li key={i} className="list-group-item"><input type="checkbox" onChange={this.onChanged.bind(this, item.name)} checked={item.isSelected}></input>&nbsp;{item.name}</li>))
-				}				
-			</ul>		
+				}			
+			</ul>
       </div>
     );
   }
