@@ -1,3 +1,10 @@
 .wellbore-component {
   border: 1px dashed #f00;
 }
+
+.color-picker-btn {
+	width: 24px;
+    height: 24px;                      
+    margin-right: 10px;
+    display: inline-block;
+}

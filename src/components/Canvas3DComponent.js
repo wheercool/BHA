@@ -37,22 +37,27 @@ var	containersPadding = 15,
 	function addMeshes() {
 		var data = [];
 
-			var fStore = store.filter(x => x.length > 0)
+			// var fStore = store.filter(x => x.length > 0)							
 				
-				fStore
-				.map(curvePoints => new THREE.SplineCurve3(curvePoints.map(x => new THREE.Vector3(x[0], x[1], x[2]))))
-				.forEach(curve => {
-					data = data.concat(curve.points)
+				store
+				.map(wellboreConfig => ({
+					curve: new THREE.SplineCurve3(wellboreConfig.trajectory.map(x => new THREE.Vector3(x[0], x[1], x[2]))),
+					color: wellboreConfig.color
+				}))
+
+				.forEach(wellbore => {
+					data = data.concat(wellbore.curve.points)
 					var geometry = new THREE.TubeGeometry(
-					    curve,  //path
+					    wellbore.curve,  //path
 					    64,    //segments
 					    2,     //radius
 					    8,     //radiusSegments
 					    false  //closed
 					);
-					var wellbore = createMesh(geometry);
-					wellbore.name = "wellbore"
-					scene.add(wellbore)
+
+					var wellboreMesh = createMesh(geometry, wellbore.color);
+					wellboreMesh.name = "wellbore"
+					scene.add(wellboreMesh)
 				})
 
 
@@ -111,8 +116,9 @@ var	containersPadding = 15,
 
 
 	}
-	function createMesh(geom) {
-			var mat = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: false});
+	function createMesh(geom, color) {
+			color = color || 'black'
+			var mat = new THREE.MeshBasicMaterial({ color: color, wireframe: false});
 			var mesh = new THREE.Mesh(geom,mat);
 			return mesh;
 	}
@@ -324,7 +330,6 @@ class Canvas3DComponent extends React.Component {
 		// }) 
 	}
 	store = this.props.data;
-	debugger;
 	if (scene) {
 			addMeshes();
 		}

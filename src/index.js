@@ -23,9 +23,11 @@ const defaultState = {
 	wellbores: [{
 		name: 'Wellbore 1',
 		isSelected: true,
-		trajectory: data
+		trajectory: data,
+		color: '#F17013'
 	}, {
 		name: 'Wellbore 3',
+		color: '#CFF2E3',
 		isSelected: true,
 		trajectory: data2
 	}]
@@ -37,10 +39,17 @@ let store = createStore((state, action) => {
 			return {
 				wellbores: state.wellbores.map(x => {
 					return (x.name == action.payload.name)
-						? {name: x.name, trajectory: x.trajectory, isSelected: !x.isSelected}
+						? {name: x.name, trajectory: x.trajectory, isSelected: !x.isSelected, color: x.color}
 						: x})
 
 			};
+		case 'WELLBORE_COLOR_CHANGED':
+			return {
+				wellbores: state.wellbores.map(x => {
+					return (x.name == action.payload.name)
+						? {name: x.name, trajectory: x.trajectory, isSelected: x.isSelected, color: action.payload.color}
+						: x})
+			}
 		default:
 			return defaultState;
 	}

@@ -11,7 +11,7 @@ class AppComponent extends React.Component {
   render() {
     return (
       <div className="index">
-      	<Canvas3D data={this.props.wellbores.filter(x => x.isSelected).map(d=>d.trajectory)}></Canvas3D>
+      	<Canvas3D data={this.props.wellbores.filter(x => x.isSelected)}></Canvas3D>
         <div className="container-fluid">
 		<h1 id="bha-title">BHA View</h1>
 
@@ -22,7 +22,8 @@ class AppComponent extends React.Component {
 					<div className="panel-title">Project Explorer</div>
 				</div>
 				<WellboreList data={this.props.wellbores}
-								onSelectionChanged={this.props.onWellboreClick}/>
+								onSelectionChanged={this.props.onWellboreClick}
+								onColorChanged={this.props.onColorChanged}/>
 			<div className="panel-footer">
 					<div className="well">
 						<div style={{color: 'red'}}>x axis (South)</div>
@@ -121,6 +122,12 @@ let mapDispatch = (dispatch) => {
 					name: name
 				}
 			});
+		},
+		onColorChanged: (name, color) => {
+			dispatch({
+				type: 'WELLBORE_COLOR_CHANGED',
+				payload: {name, color}
+			})
 		}
 	}
 }
