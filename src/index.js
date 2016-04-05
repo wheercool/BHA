@@ -19,7 +19,8 @@ var f = Math.sin;
 				
 
 
-const defaultState = {
+const defaultState = {	
+	fullScreenModeProjectionIndex: -1,
 	wellbores: [{
 		name: 'Wellbore 1',
 		isSelected: true,
@@ -37,6 +38,7 @@ let store = createStore((state, action) => {
 	switch (action.type) {
 		case 'TOGGLE_WELLBORE':
 			return {
+				fullScreenModeProjectionIndex: state.fullScreenModeProjectionIndex,
 				wellbores: state.wellbores.map(x => {
 					return (x.name == action.payload.name)
 						? {name: x.name, trajectory: x.trajectory, isSelected: !x.isSelected, color: x.color}
@@ -45,11 +47,17 @@ let store = createStore((state, action) => {
 			};
 		case 'WELLBORE_COLOR_CHANGED':
 			return {
+				fullScreenModeProjectionIndex: state.fullScreenModeProjectionIndex,
 				wellbores: state.wellbores.map(x => {
 					return (x.name == action.payload.name)
 						? {name: x.name, trajectory: x.trajectory, isSelected: x.isSelected, color: action.payload.color}
 						: x})
 			}
+		case 'PROJECTION_MODE_CHANGED':
+			return {
+				fullScreenModeProjectionIndex: state.fullScreenModeProjectionIndex >= 0? -1: action.payload.index,
+				wellbores: state.wellbores
+			};
 		default:
 			return defaultState;
 	}
