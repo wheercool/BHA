@@ -3,10 +3,13 @@
 import React from 'react';
 
 require('styles//Canvas3D.css');
-var store, scene = new THREE.Scene();
+var store, scene = new THREE.Scene(),
+	isFullScreenMode = true,
+	activeProjectionContainer = 'plane-container';
 
 var	containersPadding = 15,
-		titleMargin = 10 + 20;
+		titleMargin = 10 + 20,
+		isFullScreen = true;
 
 
 
@@ -227,7 +230,8 @@ var	containersPadding = 15,
 				var titleHeight = document.getElementById('bha-title').clientHeight,
 					panelHeaderHeight = document.getElementById('panel-header').clientHeight;
 
-				v.element.style.height = (window.innerHeight - titleHeight - 9 * containersPadding - titleMargin - 2 * panelHeaderHeight) / 2 + 'px'
+				v.element.style.height = isFullScreen?(window.innerHeight - titleHeight - 7 * containersPadding - titleMargin - 1 * panelHeaderHeight) + 'px'
+					:(window.innerHeight - titleHeight - 9 * containersPadding - titleMargin - 2 * panelHeaderHeight) / 2 + 'px'
 			})
 			if ( canvas.width !== width || canvas.height != height ) {
 
@@ -330,6 +334,7 @@ class Canvas3DComponent extends React.Component {
 		// }) 
 	}
 	store = this.props.data;
+	isFullScreen = this.props.isFullScreenMode
 	if (scene) {
 			addMeshes();
 		}

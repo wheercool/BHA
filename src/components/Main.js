@@ -5,13 +5,31 @@ import React from 'react';
 import Canvas3D from './Canvas3DComponent'
 import WellboreList from './WellboreListComponent'
 import {connect} from 'react-redux'
+import Projection from './Projection'
 
+console.log(Projection)
 class AppComponent extends React.Component {
 
   render() {
+  	const projectionList = [{
+  		id: 'plane-container',
+  		title: 'Plane'
+  	}, {
+  		id: 'perspective-container',
+  		title: 'Perspective'
+  	}, {
+  		id: 'orthographic-container',
+  		title: 'Orthographic'
+  	}, {
+  		id: 'section-container',
+  		title: 'Section'
+  	}];
+
+
     return (
       <div className="index">
-      	<Canvas3D data={this.props.wellbores.filter(x => x.isSelected)}></Canvas3D>
+      	<Canvas3D data={this.props.wellbores.filter(x => x.isSelected)}
+      			  isFullScreenMode={this.props.fullScreenModeProjectionIndex >= 0}></Canvas3D>
         <div className="container-fluid">
 		<h1 id="bha-title">BHA View</h1>
 
@@ -38,66 +56,18 @@ class AppComponent extends React.Component {
 		
 		<section className="col-sm-10">
 			<div className="wrapper"></div>
-			<div className="">
+			<div className="view-container">
+					
+
+				{
+					projectionList.map((d, index) => <Projection id={d.id}
+														key={index}
+														isStretched={index == this.props.fullScreenModeProjectionIndex} 
+														style={{display: (this.props.fullScreenModeProjectionIndex < 0 || index == this.props.fullScreenModeProjectionIndex)? "block": "none"}}
+														title={d.title}
+														onModeChanged={this.props.onModeChanged.bind(null, index)}/>)
+				}
 				
-				
-					<div className="col-sm-6 view">
-						<div className="panel panel-default">
-							<div className="panel-heading">
-								<h3 className="panel-title pull-left">Plane</h3>
-								<div className="btn-group pull-right">
-									<button className="btn btn-default">+</button>
-									<button className="btn btn-default">Fit</button>
-								</div>
-								<div className="clearfix"></div>
-							</div>
-							<div  className="panel-body">
-								<div id="plane-container" className="canvas"></div>
-							</div>
-						</div>
-					</div>
-
-					<div className="col-sm-6 view">
-						<div className="panel panel-default">
-							<div className="panel-heading">
-								<h3 className="panel-title pull-left">Perspective</h3>
-								<div className="btn-group pull-right">
-									<button className="btn btn-default">+</button>
-									<button className="btn btn-default">Fit</button>
-								</div>
-								<div className="clearfix"></div>
-							</div>
-							<div className="panel-body"> <div id="perspective-container"  className="canvas"></div></div>
-						</div>
-					</div>
-
-					<div className="col-sm-6 view">
-						<div className="panel panel-default">
-							<div className="panel-heading">
-								<h3 className="panel-title pull-left">Orthographic</h3>
-								<div className="btn-group pull-right">
-									<button className="btn btn-default">+</button>
-									<button className="btn btn-default">Fit</button>
-								</div>
-								<div className="clearfix"></div>
-							</div>
-							<div className="panel-body"><div id="orthographic-container" className="canvas"></div></div>
-						</div>
-					</div>
-
-					<div className="col-sm-6 view">
-						<div className="panel panel-default">
-							<div className="panel-heading">
-								<h3 className="panel-title pull-left">Section</h3>
-								<div className="btn-group pull-right">
-									<button className="btn btn-default">+</button>
-									<button className="btn btn-default">Fit</button>
-								</div>
-								<div className="clearfix"></div>
-							</div>
-							<div className="panel-body"><div id="section-container" className="canvas"></div></div>
-						</div>
-					</div>
 			</div>
 		</section>
 		
@@ -127,6 +97,14 @@ let mapDispatch = (dispatch) => {
 			dispatch({
 				type: 'WELLBORE_COLOR_CHANGED',
 				payload: {name, color}
+			})
+		},
+		onModeChanged: (index) => {
+			dispatch({
+				type: 'PROJECTION_MODE_CHANGED',
+				payload: {
+					index: index
+				}
 			})
 		}
 	}
