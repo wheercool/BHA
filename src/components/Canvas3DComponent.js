@@ -41,7 +41,8 @@ var	containersPadding = 15,
 		var data = [];
 
 			// var fStore = store.filter(x => x.length > 0)							
-				
+				// console.log(wellboreConfig.trajectory)
+				console.log(store)
 				store
 				.map(wellboreConfig => ({
 					curve: new THREE.SplineCurve3(wellboreConfig.trajectory.map(x => new THREE.Vector3(x[0], x[1], x[2]))),
@@ -52,8 +53,8 @@ var	containersPadding = 15,
 					data = data.concat(wellbore.curve.points)
 					var geometry = new THREE.TubeGeometry(
 					    wellbore.curve,  //path
-					    64,    //segments
-					    2,     //radius
+					    110,    //segments
+					    1,     //radius
 					    8,     //radiusSegments
 					    false  //closed
 					);
@@ -80,8 +81,9 @@ var	containersPadding = 15,
 
 			// alert(size)
 			var gridHelper = new THREE.GridHelper(size, 10 );
-			gridHelper.position.y = maxHeight + 10
+			gridHelper.position.z = -maxHeight - 10
 			gridHelper.name = 'grid';
+			gridHelper.rotation.x = Math.PI / 2;
 
 			scene.add( gridHelper );
 
@@ -94,23 +96,22 @@ var	containersPadding = 15,
 			
 
 			var north = text('N')
-			north.position.set(-100, maxHeight + 10, -150);
-			north.rotation.set(-Math.PI / 2, 0, Math.PI / 2)			
+			north.position.set(135, size, -maxHeight - 10);
 			scene.add( north );
 
 			var south = text('S')
-			south.position.set(200, maxHeight + 10, -150);
-			south.rotation.set(-Math.PI /2, 0, Math.PI / 2)			
+			south.position.set(135, -size, -maxHeight - 10);
+			// south.rotation.set(-Math.PI /2, 0, Math.PI / 2)			
 			scene.add( south );
 
 			var west = text('W')
-			west.position.set(0, maxHeight + 10, 0);
-			west.rotation.set(-Math.PI /2, 0, Math.PI / 2)			
+			west.position.set(-size + 135, 0, -maxHeight - 10);
+			// west.rotation.set(-Math.PI /2, 0, Math.PI / 2)			
 			scene.add( west );	
 
 			var east = text('E')
-			east.position.set(0, maxHeight + 10, -280);
-			east.rotation.set(-Math.PI /2, 0, Math.PI / 2)			
+			east.position.set(size + 135, 0, -maxHeight - 10);
+			// east.rotation.set(-Math.PI /2, 0, Math.PI / 2)			
 			scene.add( east );
 			
 
@@ -163,36 +164,30 @@ var	containersPadding = 15,
 				
 
 				var container = document.getElementById(elementId),
-					camera = cameras[i],
-					controls = new THREE.OrbitControls( camera, container );
-					controls.enablePan = true;
-					controls.enableZoom = true;
+					camera = cameras[i];
+					
+
+					// camera.up.set(0, 0, -1)
+					
 					// window.controls = controls;
-					switch (i) {
-						case 0:
-							controls.enableRotate = false
-
-							break;
-						case 3:
-							controls.enableRotate = false
-							break;
-						case 1:
-						case 2:
-							controls.enableRotate = true;
-							break;
-
-					}
+					
 					
 					switch(i) {
 						case 0: 
-							camera.position.x = 0.00000001;	 //bug with float type						
-							camera.position.y = -100;							
-							camera.position.z = 0;														
+							camera.up.set(0, -1, 0)
+							// camera.rotation.z = Math.PI / 2;
+							// camera.position.x = 0.00000001;	 //bug with float type						
+							// camera.position.y = -100;							
+							camera.position.z = -100;	
+
+							// camera.lookAt(scene.position)													
 
 							break;
 
 						case 3:
-							camera.position.z = 100;
+							camera.position.y = 100;
+							camera.up.set(0, 1, 0)
+							// camera.position.z = 100;
 							break;
 						default:
 							camera.position.x = 30
@@ -201,7 +196,36 @@ var	containersPadding = 15,
 							break;
 					}
 					
-					camera.lookAt(scene.position)
+					var bbox = new THREE.BoundingBoxHelper( scene, 0 );
+					bbox.update();
+					// camera.lookAt(scene.position)
+					var controls = new THREE.OrbitControls( camera, container );
+					controls.enablePan = true;
+					controls.enableZoom = true;
+
+
+					switch (i) {
+						case 0:
+							
+							controls.enableRotate = false
+							
+							break;
+						case 3:
+							controls.enableRotate = false
+							break;
+						case 1:
+								controls.enableRotate = true;
+								const 	height = 100,
+										fov = 1;
+								var dist = height / 2 / Math.tan(Math.PI * fov / 360);								
+
+							break;
+						case 2:
+							controls.enableRotate = true;
+							break;
+
+					}
+
 
 					return {
 						camera: camera,
@@ -211,6 +235,7 @@ var	containersPadding = 15,
 					};
 			})
 
+			
 
 			window.addEventListener('resize', updateSize, false)
 

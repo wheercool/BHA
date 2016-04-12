@@ -6,6 +6,7 @@ import App from './components/Main';
 
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
+import toPoints3D from './helpers/trajectory'
 // import todoApp from './reducers'
 
 
@@ -18,13 +19,38 @@ var f = Math.sin;
 
 				
 
+var incomingData = [
+	[0,0,0],
+	[293,0,0],
+	[325,1.53,260.8],
+	[410,8.9,196.75],
+	[523,11.7,203.59],
+	[615,12.98,191.59],
+	[715,20.87,205.66],
+	[815,26.64,201.98],
+	[915,46.94,204.87],
+	[1015,53.78,204.87],
+	[1115,62.85,210.21],
+	[1216,72.71,208.86],
+	[1310,74.07,199.39],
+	[1430,83.74,197.34],
+	[1451,86.83,193.21],
+	[1553,86.47,199.43],
+	[1684,86.7,208.65],
+	[1784,90.4,208.65],
+	[1884,88.2,208.65],
+	[1974,92.6,209.55],
+	[2084.5,96.32,208.44],
+	[2504,98.68,207.55] ];
 
+
+var realData = toPoints3D(incomingData).map(x => x.map(d => d/10))
 const defaultState = {	
 	fullScreenModeProjectionIndex: -1,
 	wellbores: [{
 		name: 'Wellbore 1',
 		isSelected: true,
-		trajectory: data,
+		trajectory: realData,
 		color: '#F17013'
 	}, {
 		name: 'Wellbore 3',
