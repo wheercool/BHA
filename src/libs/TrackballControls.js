@@ -4,7 +4,6 @@
  */
 
 THREE.TrackballControls = function ( object, domElement ) {
-
 	var _this = this;
 	var STATE = { NONE: -1, ROTATE: 0, ZOOM: 1, PAN: 2, TOUCH_ROTATE: 3, TOUCH_ZOOM_PAN: 4 };
 
@@ -183,8 +182,8 @@ THREE.TrackballControls = function ( object, domElement ) {
 		return function () {
 
 			var angle = Math.acos( _rotateStart.dot( _rotateEnd ) / _rotateStart.length() / _rotateEnd.length() );
-
 			if ( angle ) {
+			console.log(angle)
 
 				axis.crossVectors( _rotateStart, _rotateEnd ).normalize();
 
@@ -301,7 +300,6 @@ THREE.TrackballControls = function ( object, domElement ) {
 	};
 
 	this.update = function () {
-
 		_eye.subVectors( _this.object.position, _this.target );
 
 		if ( !_this.noRotate ) {
@@ -398,7 +396,7 @@ THREE.TrackballControls = function ( object, domElement ) {
 	}
 
 	function mousedown( event ) {
-
+		debugger;
 		if ( _this.enabled === false ) return;
 
 		event.preventDefault();

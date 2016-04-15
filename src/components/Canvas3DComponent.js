@@ -54,7 +54,7 @@ var	containersPadding = 15,
 					var geometry = new THREE.TubeGeometry(
 					    wellbore.curve,  //path
 					    110,    //segments
-					    1,     //radius
+					    4,     //radius
 					    8,     //radiusSegments
 					    false  //closed
 					);
@@ -68,12 +68,12 @@ var	containersPadding = 15,
 
 			var min = Infinity,
 			max = -Infinity,
-			maxHeight = -Infinity,
+			minHeight = Infinity,
 			size
 				
 			data.forEach(function(d) {
 
-				maxHeight = Math.max(maxHeight, d.y)
+				minHeight = Math.min(minHeight, d.z)
 				min = Math.min(min, d.x, d.y, d.z)
 				max = Math.max(max, d.x, d.y, d.z)
 				size = Math.max(Math.abs(min), Math.abs(max))
@@ -81,7 +81,7 @@ var	containersPadding = 15,
 
 			// alert(size)
 			var gridHelper = new THREE.GridHelper(size, 10 );
-			gridHelper.position.z = -maxHeight - 10
+			gridHelper.position.z = minHeight
 			gridHelper.name = 'grid';
 			gridHelper.rotation.x = Math.PI / 2;
 
@@ -96,28 +96,23 @@ var	containersPadding = 15,
 			
 
 			var north = text('N')
-			north.position.set(135, size, -maxHeight - 10);
+			north.position.set(135, size, minHeight);
 			scene.add( north );
 
 			var south = text('S')
-			south.position.set(135, -size, -maxHeight - 10);
+			south.position.set(135, -size, minHeight);
 			// south.rotation.set(-Math.PI /2, 0, Math.PI / 2)			
 			scene.add( south );
 
 			var west = text('W')
-			west.position.set(-size + 135, 0, -maxHeight - 10);
+			west.position.set(-size + 135, 0, minHeight);
 			// west.rotation.set(-Math.PI /2, 0, Math.PI / 2)			
 			scene.add( west );	
 
 			var east = text('E')
-			east.position.set(size + 135, 0, -maxHeight - 10);
+			east.position.set(size + 135, 0, minHeight);
 			// east.rotation.set(-Math.PI /2, 0, Math.PI / 2)			
 			scene.add( east );
-			
-
-
-
-
 
 	}
 	function createMesh(geom, color) {
@@ -136,13 +131,7 @@ var	containersPadding = 15,
 			canvas = document.getElementById('canvas3d-component'),
 			renderer = new THREE.WebGLRenderer( { canvas: canvas, antialias: true } ),
 
-			axes = new THREE.AxisHelper(30),
-
-			spereGeometry = new THREE.SphereGeometry(60, 20, 1, 1),
-			planeMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: false});
-			
-			
-			
+			axes = new THREE.AxisHelper(30);
 
 			scene.add(axes)
 			
@@ -162,6 +151,8 @@ var	containersPadding = 15,
 
 				// var far = i > 0? 20: 45;
 				
+				var bbox = new THREE.BoundingBoxHelper( scene, 0 );
+					bbox.update();
 
 				var container = document.getElementById(elementId),
 					camera = cameras[i];
@@ -186,23 +177,34 @@ var	containersPadding = 15,
 
 						case 3:
 							camera.position.y = 100;
-							camera.up.set(0, 1, 0)
+							camera.up.set(0, 1, 0);
+
 							// camera.position.z = 100;
 							break;
 						default:
+							// camera.up.set(1, -1, 1)
+							camera.up.set(0, 0, 1)
+							// camera.lookAt(bbox.position)
+							// camera.up.set(1, -1, 1)
 							camera.position.x = 30
-							camera.position.y = -40
-							camera.position.z = 30
+							camera.position.y = 30
+							camera.position.z = 100
 							break;
 					}
 					
-					var bbox = new THREE.BoundingBoxHelper( scene, 0 );
-					bbox.update();
+					
 					// camera.lookAt(scene.position)
 					var controls = new THREE.OrbitControls( camera, container );
+					// var controls =  new THREE.TrackballControls(camera, container);
 					controls.enablePan = true;
 					controls.enableZoom = true;
 
+					if (i == 1) {
+						controls.addEventListener( 'change', () => {
+							console.log('changed')
+						} );
+
+					}
 
 					switch (i) {
 						case 0:
@@ -210,14 +212,17 @@ var	containersPadding = 15,
 							controls.enableRotate = false
 							
 							break;
-						case 3:
-							controls.enableRotate = false
-							break;
 						case 1:
 								controls.enableRotate = true;
+								controls.minPolarAngle = -Infinity;
+								controls.maxPolarAngle = Infinity;
 								const 	height = 100,
 										fov = 1;
 								var dist = height / 2 / Math.tan(Math.PI * fov / 360);								
+
+							break;
+						case 3:
+							controls.enableRotate = false
 
 							break;
 						case 2:
@@ -286,7 +291,7 @@ var	containersPadding = 15,
 			renderer.setClearColor( 0xe0e0e0 );
 			renderer.setScissorTest( true );
 
-			views.forEach(function(view) {
+			views.forEach(function(view, i) {
 				var rect = view.container.getBoundingClientRect();
 
 					// check if it's offscreen. If so skip it
@@ -315,6 +320,8 @@ var	containersPadding = 15,
 					camera.far = 10000;
 					debugger;
 				}*/
+				// if (i == 1)
+				 view.controls.update();
 				renderer.render(scene, camera)
 			})
 		}

@@ -124,7 +124,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 		var lastQuaternion = new THREE.Quaternion();
 
 		return function () {
-			debugger;
+
 			var position = scope.object.position;
 
 			offset.copy( position ).sub( scope.target );
@@ -436,7 +436,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 		rotateEnd.set( event.clientX, event.clientY );
 		rotateDelta.subVectors( rotateEnd, rotateStart );
-		console.log('delta: ' + rotateDelta.x + ', ' + rotateDelta.y + ', ' + rotateDelta.z )
+
 		var element = scope.domElement === document ? scope.domElement.body : scope.domElement;
 
 		// rotating across whole screen goes 360 degrees around
