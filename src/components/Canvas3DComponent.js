@@ -152,7 +152,7 @@ var	containersPadding = 15,
 			
 			var cameras = [
 				new THREE.OrthographicCamera(-200, 200, -200, 200, -200, 1000),
-				new THREE.PerspectiveCamera(far, 1, 1, 1000),
+				new THREE.PerspectiveCamera(1000, 1, 1, 1000),
 				new THREE.OrthographicCamera(-200, 200, -200, 200, -200, 1000),
 				new THREE.OrthographicCamera(-200, 200, -200, 200, -200, 1000)
 			]
@@ -281,15 +281,18 @@ var	containersPadding = 15,
 				renderer.setScissor( left, bottom, width, height );
 
 				var camera = view.camera;
-				/*if (camera instanceof THREE.OrthographicCamera) {
+				if (camera instanceof THREE.OrthographicCamera) {
 					camera.top = -height / 2;
 					camera.bottom = height / 2;
 					camera.left = - width / 2;
 					camera.right = width / 2;
 					camera.near = -200;
 					camera.far = 10000;
-					debugger;
-				}*/
+					// debugger;
+				} else {
+					camera.aspect = width / height;
+				}
+				camera.updateProjectionMatrix()
 				renderer.render(scene, camera)
 			})
 		}

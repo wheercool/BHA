@@ -6,6 +6,7 @@ import Canvas3D from './Canvas3DComponent'
 import WellboreList from './WellboreListComponent'
 import {connect} from 'react-redux'
 import Projection from './Projection'
+import WellboreForm from './WellboreForm'
 
 console.log(Projection)
 class AppComponent extends React.Component {
@@ -24,7 +25,7 @@ class AppComponent extends React.Component {
   		id: 'section-container',
   		title: 'Section'
   	}];
-
+  	debugger;
 
     return (
       <div className="index">
@@ -42,6 +43,8 @@ class AppComponent extends React.Component {
 				<WellboreList data={this.props.wellbores}
 								onSelectionChanged={this.props.onWellboreClick}
 								onColorChanged={this.props.onColorChanged}/>
+
+				<WellboreForm onWellboreAdded={this.props.onWellboreAdded}/>
 			<div className="panel-footer">
 					<div className="well">
 						<div style={{color: 'red'}}>x axis (South)</div>
@@ -85,7 +88,6 @@ AppComponent.defaultProps = {
 let mapDispatch = (dispatch) => {
 	return {
 		onWellboreClick: (name) => {
-			debugger;
 			dispatch({
 				type: 'TOGGLE_WELLBORE',
 				payload: {
@@ -105,6 +107,12 @@ let mapDispatch = (dispatch) => {
 				payload: {
 					index: index
 				}
+			})
+		},
+		onWellboreAdded: (wellbore) => {
+			dispatch({
+				type: 'WELLBORE_ADDED',
+				payload: {wellbore}
 			})
 		}
 	}
