@@ -6,6 +6,7 @@ import App from './components/Main';
 
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
+
 import converter  from './helpers/trajectory';
 import Lens from './helpers/lens';
 // import todoApp from './reducers'
@@ -80,7 +81,6 @@ var expectedResult = [
 [-538.395825614533, -1170.24349273776, -1091.91850249394],
 [-733.614125761723, -1537.45436316038, -1037.16555330968],
 ];
-
 
 const defaultState = {	
 	fullScreenModeProjectionIndex: -1,

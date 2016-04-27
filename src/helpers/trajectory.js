@@ -1,4 +1,3 @@
-
 var currentDepth = 0,
 	currentInclination = 0,
 	currentAzimuth = 0,
@@ -17,6 +16,7 @@ function toPoints3D(points) {
 function transform(point) {
 	return [-point[0], -point[2], -point[1]]
 }
+
 
 
 

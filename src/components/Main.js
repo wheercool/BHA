@@ -45,9 +45,9 @@ class AppComponent extends React.Component {
 				<WellboreForm onWellboreAdded={this.props.onWellboreAdded}/>
 			<div className="panel-footer hidden">
 					<div className="well">
-						<div style={{color: 'red'}}>x axis (North)</div>
-						<div style={{color: 'green'}}>y axis (East)</div>
-						<div style={{color: 'blue'}}>z axis (Up)</div>
+						<div style={{color: 'red'}}>x axis (South)</div>
+						<div style={{color: 'green'}}>y axis</div>
+						<div style={{color: 'blue'}}>z axis (West)</div>
 					</div>
 					<div id="console"></div>
 				</div>
