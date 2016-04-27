@@ -6,18 +6,31 @@ import App from './components/Main';
 
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
-import toPoints3D from './helpers/trajectory'
+import converter  from './helpers/trajectory';
+import Lens from './helpers/lens';
 // import todoApp from './reducers'
 
+// var f = Math.sin;
+// 		var count = 20000,
+// 			sx = 100,
+// 			sy = 100,
+// 			data = range(0,  Math.PI / 2, Math.PI/count).map(d => [sx * d, sy * f(d), 20 * f(d)]),
+// 			data2 = range(0,  Math.PI / 2, Math.PI/count).map(d => [sx * d - 100, sy * Math.cos(d), 20 * f(d)]);
 
-var f = Math.sin;
-		var count = 20000,
-			sx = 100,
-			sy = 100,
-			data = range(0,  Math.PI / 2, Math.PI/count).map(d => [sx * d, sy * f(d), 20 * f(d)]),
-			data2 = range(0,  Math.PI / 2, Math.PI/count).map(d => [sx * d - 100, sy * Math.cos(d), 20 * f(d)]);
 
-				
+let assign = function(a, b) {
+	var copy = {},
+		prop;
+	for (prop  in a) {
+		copy[prop] = a[prop]
+	}
+
+	for (prop in b) {
+		copy[prop] = b[prop]
+	}
+
+	return copy;
+}		
 
 var incomingData = [
 	[0,0,0],
@@ -43,23 +56,43 @@ var incomingData = [
 	[2084.5,96.32,208.44],
 	[2504,98.68,207.55] ];
 
+var expectedResult = [
+[0, 0, 0],
+[0, 0, -293],
+[-0.421735423448406, -0.0683062336765275, -324.99619704803],
+[-3.44218898249088, -6.55742081354781, -409.618941641602],
+[-10.5481902413629, -25.4321525177457, -520.791028387459],
+[-16.3582372931112, -44.1061429169711, -610.678564340653],
+[-26.3476560328887, -71.2172206247779, -706.31014327609],
+[-42.4665960028937, -108.095805400272, -797.804141833765],
+[-66.4749990025177, -162.604848297532, -877.475253983653],
+[-98.84181658595, -232.428896383861, -941.233552619505],
+[-138.295746815852, -307.670664616339, -993.731087034413],
+[-184.294904668412, -388.936783546162, -1031.88004577537],
+[-221.038512243015, -471.046627759872, -1058.80614603086],
+[-258.06090969724, -582.678248728347, -1081.873479728],
+[-263.571186027644, -602.861382043094, -1083.60020118849],
+[-292.169216874349, -700.536065654137, -1089.56642461259],
+[-345.383736757867, -819.83052458539, -1097.3866119734],
+[-393.305842065792, -907.543671488646, -1099.91662959352],
+[-441.245104788987, -995.288222080792, -1101.13825462795],
+[-485.002852673145, -1073.90576814598, -1100.51008266366],
+[-538.395825614533, -1170.24349273776, -1091.91850249394],
+[-733.614125761723, -1537.45436316038, -1037.16555330968],
+];
 
-var realData = toPoints3D(incomingData).map(x => x.map(d => d/10))
+
 const defaultState = {	
 	fullScreenModeProjectionIndex: -1,
 	wellbores: [{
 		name: 'Wellbore 1',
 		isSelected: true,
-		trajectory: realData,
+		trajectory: converter(incomingData).map(x => x.map(d => d/20)),
 		color: '#F17013'
-	}, {
-		name: 'Wellbore 3',
-		color: '#CFF2E3',
-		isSelected: true,
-		trajectory: data2
 	}]
 };
 
+console.log(defaultState.wellbores[0].trajectory)
 let store = createStore((state, action) => {
 	switch (action.type) {
 		case 'TOGGLE_WELLBORE':
@@ -84,8 +117,25 @@ let store = createStore((state, action) => {
 				fullScreenModeProjectionIndex: state.fullScreenModeProjectionIndex >= 0? -1: action.payload.index,
 				wellbores: state.wellbores
 			};
+
+		case 'WELLBORE_ADDED':
+			let randomShift = Math.random() * 20,
+				result = converter(action.payload.wellbore.trajectory).map(x => x.map(d => d / 20 + randomShift));
+			// var result = Lens('wellbores').set(wellbores.concat(action.payload.wellbore), state);
+			return {
+				fullScreenModeProjectionIndex: state.fullScreenModeProjectionIndex,
+				wellbores: state.wellbores.concat({
+					name: action.payload.wellbore.name, 
+					trajectory: result,
+					isSelected: false,
+					color: '#ccffee'
+				})
+			};
+			return state;
+
 		default:
 			return defaultState;
+
 	}
 })
 
