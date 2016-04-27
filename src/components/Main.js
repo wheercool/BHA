@@ -7,7 +7,6 @@ import WellboreList from './WellboreListComponent'
 import {connect} from 'react-redux'
 import Projection from './Projection'
 import WellboreForm from './WellboreForm'
-
 console.log(Projection)
 class AppComponent extends React.Component {
 
@@ -25,7 +24,6 @@ class AppComponent extends React.Component {
   		id: 'section-container',
   		title: 'Section'
   	}];
-  	debugger;
 
     return (
       <div className="index">
@@ -45,7 +43,7 @@ class AppComponent extends React.Component {
 								onColorChanged={this.props.onColorChanged}/>
 
 				<WellboreForm onWellboreAdded={this.props.onWellboreAdded}/>
-			<div className="panel-footer">
+			<div className="panel-footer hidden">
 					<div className="well">
 						<div style={{color: 'red'}}>x axis (South)</div>
 						<div style={{color: 'green'}}>y axis</div>

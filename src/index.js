@@ -11,12 +11,12 @@ import converter  from './helpers/trajectory';
 import Lens from './helpers/lens';
 // import todoApp from './reducers'
 
-var f = Math.sin;
-		var count = 20000,
-			sx = 100,
-			sy = 100,
-			data = range(0,  Math.PI / 2, Math.PI/count).map(d => [sx * d, sy * f(d), 20 * f(d)]),
-			data2 = range(0,  Math.PI / 2, Math.PI/count).map(d => [sx * d - 100, sy * Math.cos(d), 20 * f(d)]);
+// var f = Math.sin;
+// 		var count = 20000,
+// 			sx = 100,
+// 			sy = 100,
+// 			data = range(0,  Math.PI / 2, Math.PI/count).map(d => [sx * d, sy * f(d), 20 * f(d)]),
+// 			data2 = range(0,  Math.PI / 2, Math.PI/count).map(d => [sx * d - 100, sy * Math.cos(d), 20 * f(d)]);
 
 
 let assign = function(a, b) {
@@ -89,14 +89,10 @@ const defaultState = {
 		isSelected: true,
 		trajectory: converter(incomingData).map(x => x.map(d => d/20)),
 		color: '#F17013'
-	}, {
-		name: 'Wellbore 3',
-		color: '#CFF2E3',
-		isSelected: false,
-		trajectory: data2
 	}]
 };
 
+console.log(defaultState.wellbores[0].trajectory)
 let store = createStore((state, action) => {
 	switch (action.type) {
 		case 'TOGGLE_WELLBORE':
@@ -123,13 +119,14 @@ let store = createStore((state, action) => {
 			};
 
 		case 'WELLBORE_ADDED':
-		debugger;
+			let randomShift = Math.random() * 20,
+				result = converter(action.payload.wellbore.trajectory).map(x => x.map(d => d / 20 + randomShift));
 			// var result = Lens('wellbores').set(wellbores.concat(action.payload.wellbore), state);
 			return {
 				fullScreenModeProjectionIndex: state.fullScreenModeProjectionIndex,
 				wellbores: state.wellbores.concat({
 					name: action.payload.wellbore.name, 
-					trajectory: converter(action.payload.wellbore.trajectory.map(x => x.map(d => d / 20)) 	),
+					trajectory: result,
 					isSelected: false,
 					color: '#ccffee'
 				})

@@ -1,7 +1,8 @@
 'use strict';
 import React from 'react';
 import parse from 'csv-parse';
-
+import {FormGroup, FormControl} from 'react-bootstrap'
+let id = 0;
 class WellboreForm extends React.Component{
   constructor(props = '#000000') {
     super();
@@ -10,12 +11,25 @@ class WellboreForm extends React.Component{
     };
   }
   render() {
+    var dataImported = this.state.trajectory.length > 0,
+        alertType =  dataImported? "alert alert-success": "alert alert-warning",
+        alertMessage = dataImported? "Done": (<div><strong>Warning!</strong> Import trajectory from csv file</div>);
+
     return (<div>
-      <label>Name:</label>
-      <input type="text" ref="name"></input>
-      <input type="file" accept=".csv" onChange={this.onChange.bind(this)}></input>
-      <button className="btn btn-default" onClick={this.onWellboreAdded.bind(this)}>Add</button>
+       <div className="form-group">
+          <label for="wellboreInput">Name</label>
+          <input type="text" ref="name" className="form-control" id="wellboreInput" placeholder="New Wellbore"></input>
+        </div>
+      <input type="file" key={id++} ref="file" className="hidden" accept=".csv" onChange={this.onChange.bind(this)}></input>
+      <div className={alertType}>{alertMessage}</div>
+      <div className="btn-group">
+        <button className="btn btn-default" onClick={this.onImport.bind(this)}>Import</button>
+        <button className="btn btn-default" disabled={!dataImported} onClick={this.onWellboreAdded.bind(this)}>Add</button>
+      </div> 
     </div>);
+  }
+  onImport() {
+    this.refs.file.click();
   }
   onWellboreAdded() {
     this.props.onWellboreAdded({
