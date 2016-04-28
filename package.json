@@ -62,9 +62,11 @@
   },
   "dependencies": {
     "core-js": "^2.0.0",
+    "csv-parse": "^1.1.0",
     "d3": "^3.5.16",
     "normalize.css": "^4.0.0",
     "react": "^0.14.0",
+    "react-bootstrap": "^0.29.2",
     "react-color": "^2.0.0",
     "react-dom": "^0.14.0",
     "react-redux": "^4.4.1"

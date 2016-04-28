@@ -1,11 +1,13 @@
 'use strict';
 
 import React from 'react';
+import d3 from 'd3';
 
 require('styles//Canvas3D.css');
 var store, scene = new THREE.Scene(),
 	isFullScreenMode = true,
 	activeProjectionContainer = 'plane-container';
+
 
 var	containersPadding = 15,
 		titleMargin = 10 + 20,
@@ -36,13 +38,51 @@ var	containersPadding = 15,
 			
 	}
 
+	function myScale(scale, domain, range) {
+		var externalScale = d3.scale()
+				.domain([scale(domain[0], scale(domain[1])) ])
+				.range(range);
+
+		return value => externalScale(scale(value));
+	}
 
 	function addMeshes() {
-		var data = [];
+		var data = [],
+			points = [].concat.apply([], store.map(d => d.trajectory)),
+
+			extentX = d3.extent(points, d => d[0]),
+			extentY = d3.extent(points, d => d[1]),
+			extentZ = d3.extent(points, d => d[2]);
+
+
+			// scale = d3.scale.linear().domain([0, 100]).range([])
+			let getSize = d => d[1] - d[0];	
+			let maximums = [extentX, extentY, extentZ].map(getSize);
+			var axisMaximum = maximums.reduce((acc, next, index) => {
+				return {
+					value: Math.max(acc.value, next),
+					index: acc.value > next? acc.index: index
+				};
+			}, { value: -Infinity, index: -1})
+
+
+			console.log(axisMaximum)
+
+			// let maxScale = d3.scale.linear().domain(maximum).range([0, 100]);
+
+
+			console.log('Extents:')
+			console.log(extentX);
+			console.log(extentY);
+			console.log(extentZ);
+			console.log('Max = ' + maximums);
+			debugger;
+			// wellboreConfig.trajectory.forEach(d => {
+			// 	mins = Math.min()
+			// })
 
 			// var fStore = store.filter(x => x.length > 0)							
-				// console.log(wellboreConfig.trajectory)
-				console.log(store)
+				
 				store
 				.map(wellboreConfig => ({
 					curve: new THREE.SplineCurve3(wellboreConfig.trajectory.map(x => new THREE.Vector3(x[0], x[1], x[2]))),
@@ -53,8 +93,8 @@ var	containersPadding = 15,
 					data = data.concat(wellbore.curve.points)
 					var geometry = new THREE.TubeGeometry(
 					    wellbore.curve,  //path
-					    110,    //segments
-					    4,     //radius
+					    64,    //segments
+					    2,     //radius
 					    8,     //radiusSegments
 					    false  //closed
 					);
@@ -68,12 +108,14 @@ var	containersPadding = 15,
 
 			var min = Infinity,
 			max = -Infinity,
-			minHeight = Infinity,
-			size
+			maxHeight = -Infinity,
+
+			size;
 				
 			data.forEach(function(d) {
 
-				minHeight = Math.min(minHeight, d.z)
+				maxHeight = Math.max(maxHeight, d.y)
+
 				min = Math.min(min, d.x, d.y, d.z)
 				max = Math.max(max, d.x, d.y, d.z)
 				size = Math.max(Math.abs(min), Math.abs(max))
@@ -81,9 +123,8 @@ var	containersPadding = 15,
 
 			// alert(size)
 			var gridHelper = new THREE.GridHelper(size, 10 );
-			gridHelper.position.z = minHeight
+			gridHelper.position.y = maxHeight + 10
 			gridHelper.name = 'grid';
-			gridHelper.rotation.x = Math.PI / 2;
 
 			scene.add( gridHelper );
 
@@ -96,23 +137,29 @@ var	containersPadding = 15,
 			
 
 			var north = text('N')
-			north.position.set(135, size, minHeight);
+			north.position.set(-100, maxHeight + 10, -150);
+			north.rotation.set(-Math.PI / 2, 0, Math.PI / 2)			
 			scene.add( north );
 
 			var south = text('S')
-			south.position.set(135, -size, minHeight);
-			// south.rotation.set(-Math.PI /2, 0, Math.PI / 2)			
+			south.position.set(200, maxHeight + 10, -150);
+			south.rotation.set(-Math.PI /2, 0, Math.PI / 2)			
 			scene.add( south );
 
 			var west = text('W')
-			west.position.set(-size + 135, 0, minHeight);
-			// west.rotation.set(-Math.PI /2, 0, Math.PI / 2)			
+			west.position.set(0, maxHeight + 10, 0);
+			west.rotation.set(-Math.PI /2, 0, Math.PI / 2)			
 			scene.add( west );	
 
 			var east = text('E')
-			east.position.set(size + 135, 0, minHeight);
-			// east.rotation.set(-Math.PI /2, 0, Math.PI / 2)			
+			east.position.set(0, maxHeight + 10, -280);
+			east.rotation.set(-Math.PI /2, 0, Math.PI / 2)			
 			scene.add( east );
+			
+
+
+
+
 
 	}
 	function createMesh(geom, color) {
@@ -131,7 +178,13 @@ var	containersPadding = 15,
 			canvas = document.getElementById('canvas3d-component'),
 			renderer = new THREE.WebGLRenderer( { canvas: canvas, antialias: true } ),
 
-			axes = new THREE.AxisHelper(30);
+			axes = new THREE.AxisHelper(30),
+
+			spereGeometry = new THREE.SphereGeometry(60, 20, 1, 1),
+			planeMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: false});
+			
+			
+			
 
 			scene.add(axes)
 			
@@ -142,7 +195,7 @@ var	containersPadding = 15,
 			
 			var cameras = [
 				new THREE.OrthographicCamera(-200, 200, -200, 200, -200, 1000),
-				new THREE.PerspectiveCamera(far, 1, 1, 1000),
+				new THREE.PerspectiveCamera(1000, 1, 1, 1000),
 				new THREE.OrthographicCamera(-200, 200, -200, 200, -200, 1000),
 				new THREE.OrthographicCamera(-200, 200, -200, 200, -200, 1000)
 			]
@@ -151,86 +204,47 @@ var	containersPadding = 15,
 
 				// var far = i > 0? 20: 45;
 				
-				var bbox = new THREE.BoundingBoxHelper( scene, 0 );
-					bbox.update();
 
 				var container = document.getElementById(elementId),
-					camera = cameras[i];
-					
-
-					// camera.up.set(0, 0, -1)
-					
-					// window.controls = controls;
-					
-					
-					switch(i) {
-						case 0: 
-							camera.up.set(0, -1, 0)
-							// camera.rotation.z = Math.PI / 2;
-							// camera.position.x = 0.00000001;	 //bug with float type						
-							// camera.position.y = -100;							
-							camera.position.z = -100;	
-
-							// camera.lookAt(scene.position)													
-
-							break;
-
-						case 3:
-							camera.position.y = 100;
-							camera.up.set(0, 1, 0);
-
-							// camera.position.z = 100;
-							break;
-						default:
-							// camera.up.set(1, -1, 1)
-							camera.up.set(0, 0, 1)
-							// camera.lookAt(bbox.position)
-							// camera.up.set(1, -1, 1)
-							camera.position.x = 30
-							camera.position.y = 30
-							camera.position.z = 100
-							break;
-					}
-					
-					
-					// camera.lookAt(scene.position)
-					var controls = new THREE.OrbitControls( camera, container );
-					// var controls =  new THREE.TrackballControls(camera, container);
+					camera = cameras[i],
+					controls = new THREE.OrbitControls( camera, container );
 					controls.enablePan = true;
 					controls.enableZoom = true;
-
-					if (i == 1) {
-						controls.addEventListener( 'change', () => {
-							console.log('changed')
-						} );
-
-					}
-
+					// window.controls = controls;
 					switch (i) {
 						case 0:
-							
 							controls.enableRotate = false
-							
-							break;
-						case 1:
-								controls.enableRotate = true;
-								controls.minPolarAngle = -Infinity;
-								controls.maxPolarAngle = Infinity;
-								const 	height = 100,
-										fov = 1;
-								var dist = height / 2 / Math.tan(Math.PI * fov / 360);								
 
 							break;
 						case 3:
 							controls.enableRotate = false
-
 							break;
+						case 1:
 						case 2:
 							controls.enableRotate = true;
 							break;
 
 					}
+					
+					switch(i) {
+						case 0: 
+							camera.position.x = 0.00000001;	 //bug with float type						
+							camera.position.y = -100;							
+							camera.position.z = 0;														
 
+							break;
+
+						case 3:
+							camera.position.z = 100;
+							break;
+						default:
+							camera.position.x = 30
+							camera.position.y = -40
+							camera.position.z = 30
+							break;
+					}
+					
+					camera.lookAt(scene.position)
 
 					return {
 						camera: camera,
@@ -240,7 +254,6 @@ var	containersPadding = 15,
 					};
 			})
 
-			
 
 			window.addEventListener('resize', updateSize, false)
 
@@ -291,7 +304,7 @@ var	containersPadding = 15,
 			renderer.setClearColor( 0xe0e0e0 );
 			renderer.setScissorTest( true );
 
-			views.forEach(function(view, i) {
+			views.forEach(function(view) {
 				var rect = view.container.getBoundingClientRect();
 
 					// check if it's offscreen. If so skip it
@@ -311,17 +324,18 @@ var	containersPadding = 15,
 				renderer.setScissor( left, bottom, width, height );
 
 				var camera = view.camera;
-				/*if (camera instanceof THREE.OrthographicCamera) {
+				if (camera instanceof THREE.OrthographicCamera) {
 					camera.top = -height / 2;
 					camera.bottom = height / 2;
 					camera.left = - width / 2;
 					camera.right = width / 2;
 					camera.near = -200;
 					camera.far = 10000;
-					debugger;
-				}*/
-				// if (i == 1)
-				 view.controls.update();
+					// debugger;
+				} else {
+					camera.aspect = width / height;
+				}
+				camera.updateProjectionMatrix()
 				renderer.render(scene, camera)
 			})
 		}
@@ -340,7 +354,11 @@ var	containersPadding = 15,
 	}
 
 	
-
+function shiftedScale(scale, shift) {
+	return function(value) {
+		return scale(value) + shift;
+	}
+}
 
 
 class Canvas3DComponent extends React.Component {

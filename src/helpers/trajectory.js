@@ -1,12 +1,23 @@
-function toPoints3D(points) {
-	return points.map(moveNextPoint)
-}
-
-
 var currentDepth = 0,
 	currentInclination = 0,
 	currentAzimuth = 0,
 	currentPoint = [0, 0, 0];
+
+function toPoints3D(points) {
+	currentDepth = 0;
+	currentInclination = 0;
+	currentAzimuth = 0;
+	currentPoint = [0, 0, 0];
+	return points.map(moveNextPoint)
+					.map(transform)
+}
+
+
+function transform(point) {
+	return [-point[0], -point[2], -point[1]]
+}
+
+
 
 
 function moveNextPoint(position) {
