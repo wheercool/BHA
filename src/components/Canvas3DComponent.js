@@ -38,7 +38,7 @@ var	containersPadding = 15,
 			
 	}
 
-	function myScale(scale, domain, range) {
+	function myScale(scale, range, domain) {
 		var externalScale = d3.scale()
 				.domain([scale(domain[0], scale(domain[1])) ])
 				.range(range);
@@ -60,15 +60,16 @@ var	containersPadding = 15,
 			let maximums = [extentX, extentY, extentZ].map(getSize);
 			var axisMaximum = maximums.reduce((acc, next, index) => {
 				return {
-					value: Math.max(acc.value, next),
+					value: Math.max(acc.value, next),					
 					index: acc.value > next? acc.index: index
 				};
 			}, { value: -Infinity, index: -1})
 
+			// let scales = maximums.map(myScale.bind(null, axisMaximum.value))
+			// console.log(axisMaximum)
 
-			console.log(axisMaximum)
-
-			// let maxScale = d3.scale.linear().domain(maximum).range([0, 100]);
+			let maxScale = d3.scale.linear().domain(extentZ).range([0, 100]);
+			// let scale2 = myScale(maxScale, )
 
 
 			console.log('Extents:')
@@ -235,7 +236,7 @@ var	containersPadding = 15,
 							break;
 
 						case 3:
-							camera.position.z = 100;
+							camera.position.z = -100;
 							break;
 						default:
 							camera.position.x = 30
@@ -325,10 +326,16 @@ var	containersPadding = 15,
 
 				var camera = view.camera;
 				if (camera instanceof THREE.OrthographicCamera) {
+					console.log(width + '-' + height)
 					camera.top = -height / 2;
 					camera.bottom = height / 2;
-					camera.left = - width / 2;
+					camera.left = -width / 2;
 					camera.right = width / 2;
+
+					// camera.top = -width / 2;
+					// camera.bottom = width / 2;
+					// camera.left = - height / 2;
+					// camera.right = height / 2;
 					camera.near = -200;
 					camera.far = 10000;
 					// debugger;
@@ -354,13 +361,6 @@ var	containersPadding = 15,
 	}
 
 	
-function shiftedScale(scale, shift) {
-	return function(value) {
-		return scale(value) + shift;
-	}
-}
-
-
 class Canvas3DComponent extends React.Component {
 	componentDidMount() {
 		store = this.props.data;

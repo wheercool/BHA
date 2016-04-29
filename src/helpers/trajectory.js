@@ -14,7 +14,7 @@ function toPoints3D(points) {
 
 
 function transform(point) {
-	return [-point[0], -point[2], -point[1]]
+	return [-point[1], -point[2], -point[0]]
 }
 
 
