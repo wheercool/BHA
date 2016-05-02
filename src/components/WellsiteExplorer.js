@@ -4,13 +4,13 @@ import React from 'react';
 import EditableHeader from './EditableHeader';
 import {Panel, Button, ListGroupItem, ListGroup} from 'react-bootstrap';
 
-let ProjectExplorer = (props) => {
+let WellsiteExplorer = (props) => {
   return (
-  	<Panel  header={<EditableHeader title="Project Explorer" />}
+  	<Panel  header={<EditableHeader title="Wellsite Explorer" />}
   			footer={<Button>Add</Button>}>
   		<ListGroup>
   			{
-  				props.wellsites.map((d, id) => <ListGroupItem key={id}><EditableHeader title={d.name} /></ListGroupItem>)
+  				props.wells.map((d, id) => <ListGroupItem key={id}><EditableHeader title={d.name} /></ListGroupItem>)
   			}	  		
   		</ListGroup>
 
@@ -18,4 +18,4 @@ let ProjectExplorer = (props) => {
   );
 }
 
-export default ProjectExplorer;
+export default WellsiteExplorer;

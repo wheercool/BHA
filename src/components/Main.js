@@ -7,8 +7,9 @@ import WellboreList from './WellboreListComponent'
 import {connect} from 'react-redux'
 import Projection from './Projection'
 import WellboreForm from './WellboreForm'
-console.log(Projection)
+import NavigationPanel from './NavigationPanel'
 class AppComponent extends React.Component {
+
 
   render() {
   	const projectionList = [{
@@ -55,7 +56,7 @@ class AppComponent extends React.Component {
 
 			</div>
 		
-		<section className="col-sm-10">
+		<section className="col-sm-8">
 			<div className="wrapper"></div>
 			<div className="view-container">
 					
@@ -72,6 +73,9 @@ class AppComponent extends React.Component {
 			</div>
 		</section>
 		
+			<div className="col-sm-2">
+				<NavigationPanel />
+			</div>
 		
 		</div>
 		</div>
