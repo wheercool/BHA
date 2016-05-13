@@ -1,11 +1,21 @@
 'use strict';
 
 import React from 'react';
-
-require('styles//ProjectExplorer.css');
+import EditableHeader from './EditableHeader';
+import {Panel, Button, ListGroupItem, ListGroup} from 'react-bootstrap';
 
 let ProjectExplorer = (props) => {
-  return 
+	props = props || {wellsites: []}
+  return (
+  	<Panel  header={<EditableHeader title="Project Explorer" />}
+  			footer={<Button>Add</Button>}>
+  		<ListGroup>
+  			{
+  				props.wellsites.map((d, id) => <ListGroupItem key={id}><EditableHeader title={d.name} /></ListGroupItem>)
+  			}	  		
+  		</ListGroup>  		
+  	</Panel>
+  );
 }
 
 export default ProjectExplorer;
