@@ -17,7 +17,7 @@ class WellboreForm extends React.Component{
 
     return (<div>
        <div className="form-group">
-          <label for="wellboreInput">Name</label>
+          <label htmlFor="wellboreInput">Name</label>
           <input type="text" ref="name" className="form-control" id="wellboreInput" placeholder="New Wellbore"></input>
         </div>
       <input type="file" key={id++} ref="file" className="hidden" accept=".csv" onChange={this.onChange.bind(this)}></input>

@@ -1,14 +1,26 @@
 import 'core-js/fn/object/assign';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './components/Main';
+import Main from './components/Main';
+import NavigationPanel from './components/NavigationPanel';
+import ProjectExplorer from './components/ProjectExplorer';
 
 
+import { createStore,  combineReducers, applyMiddleware} from 'redux'
 import { Provider } from 'react-redux'
-import { createStore } from 'redux'
+import { Router, Route, browserHistory, hashHistory } from 'react-router'
+import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
 
 import converter  from './helpers/trajectory';
 import Lens from './helpers/lens';
+
+import Wellsites from './components/Wellsites'
+import Projects from './components/Projects'
+import EditWellsite from './components/EditWellsite'
+import AddWellsite from './components/AddWellsite'
+import ViewWellsite from './components/ViewWellsite'
+
+
 // import todoApp from './reducers'
 
 // var f = Math.sin;
@@ -84,6 +96,22 @@ var expectedResult = [
 
 const defaultState = {	
 	fullScreenModeProjectionIndex: -1,
+	projects: [{
+		name: 'Project 1'
+	}],
+	wellsites: [{
+		id: 1,
+		name: 'Wellsite1',
+		city: 'Berlin',
+		address: 'Heine 12',
+		postcode: '123H3'	
+	}, {
+		id: 2,
+		name: 'Wellsite2',
+		city: 'Moscow',
+		address: "Pushkin St - 12",
+		postcode: '12'
+	}],
 	wellbores: [{
 		name: 'Wellbore 1',
 		isSelected: true,
@@ -93,7 +121,7 @@ const defaultState = {
 };
 
 console.log(defaultState.wellbores[0].trajectory)
-let store = createStore((state, action) => {
+let mainReducer = (state, action) => {
 	switch (action.type) {
 		case 'TOGGLE_WELLBORE':
 			return {
@@ -137,9 +165,8 @@ let store = createStore((state, action) => {
 			return defaultState;
 
 	}
-})
+};
 
-store.subscribe(() => console.log(store.getState()));
 
 function range(a, b, step) {
 	var res = [];		
@@ -152,6 +179,38 @@ function range(a, b, step) {
 }
 
 
+const store = createStore(
+  combineReducers({
+    main: mainReducer,
+    routing: routerReducer
+  })
+)
+
+
+store.subscribe(() => console.log('STORE: ' + JSON.stringify(store.getState())));
+
+const history = syncHistoryWithStore(hashHistory, store)
+
+let Test = (props) => {
+	
+	return (<div>{props.route.path} Test {props.children}</div>)
+}
+
 
 // Render the main component into the dom
-ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('app'));
+ReactDOM.render((<Provider store={store}>
+					<Router history={history}>
+						<Route path="/" component={Main}>
+							<Route path="wellsites" component={Wellsites}>								
+								
+							<Route>
+							<Route path="/wellsite/edit/:wellsiteId" component={EditWellsite} />								
+							<Route path="/wellsite/view/:wellsiteId" component={ViewWellsite} />								
+							<Route path="/wellsite/add" component={AddWellsite} />								
+							
+							<Route path="projects" component={Projects}/>
+							<Route path="wells" component={Wellsites}/>
+
+						</Route>
+					</Router>
+				</Provider>), document.getElementById('app'));
