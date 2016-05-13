@@ -77,7 +77,6 @@ var	containersPadding = 15,
 			console.log(extentY);
 			console.log(extentZ);
 			console.log('Max = ' + maximums);
-			debugger;
 			// wellboreConfig.trajectory.forEach(d => {
 			// 	mins = Math.min()
 			// })
@@ -268,9 +267,7 @@ var	containersPadding = 15,
 
 			var width = canvas.clientWidth;
 			var height = canvas.clientHeight;
-			// debugger;
 			views.forEach(function(v) {
-				// debugger;
 				var titleHeight = document.getElementById('bha-title').clientHeight,
 					panelHeaderHeight = document.getElementById('panel-header').clientHeight;
 
@@ -326,7 +323,7 @@ var	containersPadding = 15,
 
 				var camera = view.camera;
 				if (camera instanceof THREE.OrthographicCamera) {
-					console.log(width + '-' + height)
+					// console.log(width + '-' + height)
 					camera.top = -height / 2;
 					camera.bottom = height / 2;
 					camera.left = -width / 2;
@@ -338,7 +335,6 @@ var	containersPadding = 15,
 					// camera.right = height / 2;
 					camera.near = -200;
 					camera.far = 10000;
-					// debugger;
 				} else {
 					camera.aspect = width / height;
 				}
@@ -368,12 +364,10 @@ class Canvas3DComponent extends React.Component {
 		init();
 		// animate(this.refs.canvas)
 		// console.log(this.refs.canvas)
-		// debugger;
 		// window.addEventListener('resize', updateSize.bind(null, this.refs.canvas), false)
 	}
   render() {
   	if (!scene) alert("Scene")
-  	// debugger;
   	if (scene) {
   		scene.children = [];
   // 		scene.children.forEach(x => {

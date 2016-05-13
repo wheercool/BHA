@@ -3,8 +3,14 @@
 import React from 'react';
 import {Breadcrumb} from 'react-bootstrap';
 import ProjectExplorer from './ProjectExplorer';
+import WellsiteExplorer from './WellsiteExplorer';
+import { Router, Route, Link, RouteHandler } from 'react-router'
 
-let NavigationPanel = (props) => (
+
+let NavigationPanel = (props) => {
+	debugger;
+	console.log(props.children)
+	return (
 	<div>
 		<Breadcrumb>
 			 <Breadcrumb.Item href="#">
@@ -14,7 +20,9 @@ let NavigationPanel = (props) => (
 		      		Wellbores
 		    </Breadcrumb.Item>
 		</Breadcrumb>
-		<ProjectExplorer wellsites={[]}/>
-	</div>
-	);
+		{props.children}
+		
+	</div>)
+	};
+
 export default NavigationPanel;

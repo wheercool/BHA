@@ -5,6 +5,7 @@ import EditableHeader from './EditableHeader';
 import {Panel, Button, ListGroupItem, ListGroup} from 'react-bootstrap';
 
 let ProjectExplorer = (props) => {
+	props = props || {wellsites: []}
   return (
   	<Panel  header={<EditableHeader title="Project Explorer" />}
   			footer={<Button>Add</Button>}>
@@ -12,8 +13,7 @@ let ProjectExplorer = (props) => {
   			{
   				props.wellsites.map((d, id) => <ListGroupItem key={id}><EditableHeader title={d.name} /></ListGroupItem>)
   			}	  		
-  		</ListGroup>
-
+  		</ListGroup>  		
   	</Panel>
   );
 }
