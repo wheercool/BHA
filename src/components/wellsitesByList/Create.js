@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router'
 import {connect} from 'react-redux'
-import {Col, Button} from 'react-bootstrap'
+import {Col, Button, Panel} from 'react-bootstrap'
 
 import List from '../List'
 import WellsiteEditor from '../WellsiteEditor'
@@ -11,18 +11,19 @@ import WellsiteEditor from '../WellsiteEditor'
  	render() {
 		let props = this.props,
 			wellsiteId = props.params.wellsiteId;
+		let buttonToolbar = <div><Button bsStyle="success" onClick={props.onCreate.bind(this, this)}>Create</Button>
+				<Link to="/wellsites/byList" className="btn btn-default">Close</Link></div>
 
-		return (<div><h4 className="page-header">New Wellsite </h4>
-			
+		return (<div>			
 			<Col sm={5}>
 				<List data={props.wellsites} baseUrl="wellsites/byList"/>
 			</Col>
 
 			<Col sm={7}>
-				<WellsiteEditor ref="editor" type="add" item={{}} />
-
-				<Button bsStyle="success" onClick={props.onCreate.bind(this, this)}>Create</Button>
-				<Link to="/wellsites/byList" className="btn btn-default">Close</Link>
+				<Panel header="Add" footer={buttonToolbar}>
+					<WellsiteEditor ref="editor" type="add" item={{}} />
+				</Panel>
+				
 			</Col>
 			
 		</div>)

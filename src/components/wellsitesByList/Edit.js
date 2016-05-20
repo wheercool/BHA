@@ -1,6 +1,6 @@
 import React from 'react'
 import {Link} from 'react-router'
-import {Col, Button} from 'react-bootstrap'
+import {Col, Button, Panel} from 'react-bootstrap'
 
 import List from '../List'
 import WellsiteEditor from '../WellsiteEditor'
@@ -11,16 +11,19 @@ let Edit = props => {
 			wellsite = props.wellsites.filter(w => w.id == wellsiteId)[0],
 			wellsiteName = wellsite.name;
 
-		return (<div><h2 className="page-header">{wellsiteName} </h2>
-			
+		let buttonToolbar = <div><Button bsStyle="success">OK</Button>
+				<Link to={"/wellsites/byList/view/" + wellsiteId} className="btn btn-default">Cancel</Link></div>;
+
+		return (<div>			
 			<Col sm={5}>
 				<List data={props.wellsites} selectedId={wellsiteId} baseUrl="wellsites/byList"/>
 			</Col>
 
 			<Col sm={7}>
-				<WellsiteEditor item={wellsite} wellsiteName={wellsiteName} />
-				<Button bsStyle="success">OK</Button>
-				<Link to={"/wellsites/byList/view/" + wellsiteId} className="btn btn-default">Cancel</Link>
+				<Panel header="Edit" footer={buttonToolbar}>
+					<WellsiteEditor item={wellsite} wellsiteName={wellsiteName} />
+				</Panel>
+				
 			</Col>
 			
 		</div>)

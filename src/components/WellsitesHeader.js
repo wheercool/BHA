@@ -12,6 +12,7 @@ let WellsitesHeader = props => {
 		</div>
 		<h3>Wellsites</h3>
 		<div className="clearfix" />
+		<hr />
 		{props.children}
 	</div>)
 }

@@ -12,7 +12,7 @@ let Detail = props => {
 			wellsite = props.wellsites.filter(w => w.id == wellsiteId)[0],
 			wellsiteName = wellsite.name;
 
-		return (<div><h4 className="page-header">{wellsiteName} </h4>
+		return (<div>
 			
 			<Col sm={5}>
 				<List data={props.wellsites} selectedId={wellsiteId} baseUrl="wellsites/byList"/>

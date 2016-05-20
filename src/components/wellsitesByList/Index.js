@@ -5,9 +5,8 @@ import List from '../List'
 import connect from './connect'
 
 let Wellsites = (props) => {
-	return (<div><h4 className="page-header">All Wellsites </h4>
-			
-			<Col sm={5}>
+	return (<div>			
+			<Col sm={12}>
 				<List data={props.wellsites} baseUrl="wellsites/byList"/>
 			</Col>
 

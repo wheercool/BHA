@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Table, ButtonGroup, Button, Panel} from 'react-bootstrap'
+import {Table, ButtonGroup, Button, Panel, Col, FormGroup, FormControl, InputGroup, Glyphicon} from 'react-bootstrap'
 import {Link} from 'react-router'
 import classNames from 'classNames'
 import { hashHistory } from 'react-router'
@@ -11,12 +11,20 @@ class WellsiteWellsGrid extends Component {
 	render() {
 		let props = this.props;
 		let buttonToolbar = <ButtonGroup>
-				<Button bsStyle="success">Add</Button>
+				
 				<Button bsStyle="primary" disabled={!props.selectedId}>Edit</Button>
 				<Button bsStyle="danger" disabled={!props.selectedId}>Delete</Button>
 			</ButtonGroup>;
+		let header = <FormGroup >
 
-		return (<Panel header="Wells" footer={buttonToolbar} bsStyle="success">
+				 	<InputGroup >
+				 		<InputGroup.Addon className="search-input-group"><Link to={props.baseUrl + "/add/"} className="btn-success btn-lg"><Glyphicon glyph="plus"/></Link></InputGroup.Addon>
+				 		<InputGroup.Addon className="search-input-group"><h5>Wellsite Wells</h5></InputGroup.Addon>
+				    	<Col sm={3} className="pull-right"><FormControl type="text" placeholder="Search..." /></Col>
+				    </InputGroup>
+				</FormGroup>;
+
+		return (<Panel header={header} footer={buttonToolbar} bsStyle="default">
 			<Table hover >
 				<thead>
 					<tr>
