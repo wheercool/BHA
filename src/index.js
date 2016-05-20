@@ -22,6 +22,7 @@ import WellsitesByListIndex from './components/wellsitesByList/Index'
 import ViewWellsite from './components/wellsitesByList/Detail'
 import AddWellsite from './components/wellsitesByList/Create'
 import EditWellsite from './components/wellsitesByList/Edit'
+import WellsitesByListDelete from './components/wellsitesByList/Delete'
 
 //By Grid
 import WellsitesByGridIndex from './components/wellsitesByGrid/Index'
@@ -51,6 +52,7 @@ ReactDOM.render((<Provider store={store}>
 									<IndexRoute component={WellsitesByListIndex} />								
 									<Route path="view/:wellsiteId" component={ViewWellsite} />								
 									<Route path="edit/:wellsiteId" component={EditWellsite} />								
+									<Route path="remove/:wellsiteId" component={WellsitesByListDelete} />								
 									<Route path="add" component={AddWellsite} />	
 								</Route>
 								
