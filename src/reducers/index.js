@@ -1,11 +1,12 @@
 import { combineReducers } from 'redux'
-import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
-
+import { routerReducer } from 'react-router-redux'
+import {reducer as formReducer} from 'redux-form';
 import mainReducer from './mainReducer'
 
 const App = combineReducers({
 	main: mainReducer,
-	routing: routerReducer
+	routing: routerReducer,
+	form: formReducer
 })
 
 export default App

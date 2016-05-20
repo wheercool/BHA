@@ -17,12 +17,16 @@ import Projects from './components/Projects'
 //Wellsites
 import WellsitesHeader from './components/WellsitesHeader'
 
+//By List
+import WellsitesByListIndex from './components/wellsitesByList/Index'
+import ViewWellsite from './components/wellsitesByList/Detail'
+import AddWellsite from './components/wellsitesByList/Create'
+import EditWellsite from './components/wellsitesByList/Edit'
 
-	//By List
-	import WellsitesByListIndex from './components/wellsitesByList/Index'
-	import ViewWellsite from './components/wellsitesByList/Detail'
-	import AddWellsite from './components/wellsitesByList/Create'
-	import EditWellsite from './components/wellsitesByList/Edit'
+//By Grid
+import WellsitesByGridIndex from './components/wellsitesByGrid/Index'
+import WellsitesByGridDetail from './components/wellsitesByGrid/Detail'
+import WellsitesByGridEdit from './components/wellsitesByGrid/Edit'
 
 
 const store = createStore(App)
@@ -51,7 +55,9 @@ ReactDOM.render((<Provider store={store}>
 								</Route>
 								
 								<Route path="byGrid">
-									<IndexRoute component={Empty}/>
+									<IndexRoute component={WellsitesByGridIndex}/>
+									<Route path="view/:wellsiteId" component={WellsitesByGridDetail} />	
+									<Route path="edit/:wellsiteId" component={WellsitesByGridEdit} />	
 								</Route>
 
 								<Route path="by3D">

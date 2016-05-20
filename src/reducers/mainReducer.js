@@ -69,6 +69,14 @@ const defaultState = {
 		address: "Pushkin St - 12",
 		postcode: '12'
 	}],
+	wells: [{
+		id: 1,
+		wellsiteId: 1,
+		name: 'Well 1',
+		nsOffset: 10,
+		ewOffset: 10,
+		motherbore: 'Wellbore 1'
+	}],
 	wellbores: [{
 		name: 'Wellbore 1',
 		isSelected: true,
@@ -79,6 +87,12 @@ const defaultState = {
 
 let mainReducer = (state, action) => {
 	switch (action.type) {
+
+		case 'CREATE':
+
+			return {
+				wellsites: state.main.wellsites.concat(state.form.wellsite)
+			}
 		case 'TOGGLE_WELLBORE':
 			return {
 				fullScreenModeProjectionIndex: state.fullScreenModeProjectionIndex,
