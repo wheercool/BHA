@@ -8,7 +8,7 @@ import ProjectExplorer from './components/ProjectExplorer';
 
 import { createStore,  combineReducers, applyMiddleware} from 'redux'
 import { Provider } from 'react-redux'
-import { Router, Route, IndexRoute, browserHistory, hashHistory } from 'react-router'
+import { Router, Route, IndexRoute, IndexRedirect, browserHistory, hashHistory } from 'react-router'
 import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
 
 import converter  from './helpers/trajectory';
@@ -195,7 +195,8 @@ let Empty = (props) => {
 ReactDOM.render((<Provider store={store}>
 					<Router history={history}>
 						<Route path="/" component={Main}>
-							<Route path="wellsites" component={WellsitesHeader}>														
+							<Route path="wellsites" component={WellsitesHeader}>	
+								<IndexRedirect to="/wellsites/byList" />													
 								<Route path="byList">
 									<IndexRoute component={WellsitesByListIndex} />								
 									<Route path="view/:wellsiteId" component={ViewWellsite} />								
@@ -215,7 +216,7 @@ ReactDOM.render((<Provider store={store}>
 							
 							<Route path="projects" component={Projects}/>
 							
-
+							<Route path="wells" component={Empty} />
 						</Route>
 					</Router>
 				</Provider>), document.getElementById('app'));
