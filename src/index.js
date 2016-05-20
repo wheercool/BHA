@@ -8,28 +8,22 @@ import ProjectExplorer from './components/ProjectExplorer';
 
 import { createStore,  combineReducers, applyMiddleware} from 'redux'
 import { Provider } from 'react-redux'
-import { Router, Route, browserHistory, hashHistory } from 'react-router'
+import { Router, Route, IndexRoute, browserHistory, hashHistory } from 'react-router'
 import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
 
 import converter  from './helpers/trajectory';
 import Lens from './helpers/lens';
 
-import Wellsites from './components/Wellsites'
 import Projects from './components/Projects'
-import EditWellsite from './components/EditWellsite'
-import AddWellsite from './components/AddWellsite'
-import ViewWellsite from './components/ViewWellsite'
 
+//Wellsites
+import WellsitesHeader from './components/WellsitesHeader'
 
-// import todoApp from './reducers'
-
-// var f = Math.sin;
-// 		var count = 20000,
-// 			sx = 100,
-// 			sy = 100,
-// 			data = range(0,  Math.PI / 2, Math.PI/count).map(d => [sx * d, sy * f(d), 20 * f(d)]),
-// 			data2 = range(0,  Math.PI / 2, Math.PI/count).map(d => [sx * d - 100, sy * Math.cos(d), 20 * f(d)]);
-
+//By List
+import WellsitesByListIndex from './components/wellsitesByList/Index'
+import ViewWellsite from './components/wellsitesByList/Detail'
+import AddWellsite from './components/wellsitesByList/Create'
+import EditWellsite from './components/wellsitesByList/Edit'
 
 let assign = function(a, b) {
 	var copy = {},
@@ -191,9 +185,9 @@ store.subscribe(() => console.log('STORE: ' + JSON.stringify(store.getState())))
 
 const history = syncHistoryWithStore(hashHistory, store)
 
-let Test = (props) => {
+let Empty = (props) => {
 	
-	return (<div>{props.route.path} Test {props.children}</div>)
+	return (<div>Empty</div>)
 }
 
 
@@ -201,15 +195,26 @@ let Test = (props) => {
 ReactDOM.render((<Provider store={store}>
 					<Router history={history}>
 						<Route path="/" component={Main}>
-							<Route path="wellsites" component={Wellsites}>								
+							<Route path="wellsites" component={WellsitesHeader}>														
+								<Route path="byList">
+									<IndexRoute component={WellsitesByListIndex} />								
+									<Route path="view/:wellsiteId" component={ViewWellsite} />								
+									<Route path="edit/:wellsiteId" component={EditWellsite} />								
+									<Route path="add" component={AddWellsite} />	
+								</Route>
 								
-							<Route>
-							<Route path="/wellsite/edit/:wellsiteId" component={EditWellsite} />								
-							<Route path="/wellsite/view/:wellsiteId" component={ViewWellsite} />								
-							<Route path="/wellsite/add" component={AddWellsite} />								
+								<Route path="byGrid">
+									<IndexRoute component={Empty}/>
+								</Route>
+
+								<Route path="by3D">
+									<IndexRoute component={Empty}/>
+								</Route>
+							</Route>
+															
 							
 							<Route path="projects" component={Projects}/>
-							<Route path="wells" component={Wellsites}/>
+							
 
 						</Route>
 					</Router>
