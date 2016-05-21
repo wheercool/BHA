@@ -76,6 +76,27 @@ const defaultState = {
 		nsOffset: 10,
 		ewOffset: 10,
 		motherbore: 'Wellbore 1'
+	},{
+		id: 2,
+		wellsiteId: 1,
+		name: 'Well 2',
+		nsOffset: 10,
+		ewOffset: 10,
+		motherbore: 'Wellbore 1'
+	},{
+		id: 3,
+		wellsiteId: 1,
+		name: 'Well 3',
+		nsOffset: 10,
+		ewOffset: 10,
+		motherbore: 'Wellbore 1'
+	},{
+		id: 4,
+		wellsiteId: 1,
+		name: 'Well 4',
+		nsOffset: 10,
+		ewOffset: 10,
+		motherbore: 'Wellbore 1'
 	}],
 	wellbores: [{
 		name: 'Wellbore 1',
