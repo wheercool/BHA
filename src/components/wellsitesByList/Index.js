@@ -7,7 +7,7 @@ import {connect} from 'react-redux'
 let Wellsites = (props) => {
 	return (<div>			
 			<Col sm={12}>
-				<List data={props.wellsites} baseUrl="wellsites/byList"/>
+				<List data={props.wellsites} baseUrl="wellsites/byList" title="Wellsites" subTitle="Wells"/>
 			</Col>
 
 		</div>)

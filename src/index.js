@@ -28,6 +28,7 @@ import WellsitesByListDelete from './components/wellsitesByList/Delete'
 import WellsitesByGridIndex from './components/wellsitesByGrid/Index'
 import WellsitesByGridDetail from './components/wellsitesByGrid/Detail'
 import WellsitesByGridEdit from './components/wellsitesByGrid/Edit'
+import WellsitesByGridCreate from './components/wellsitesByGrid/Create'
 
 
 const store = createStore(App)
@@ -60,6 +61,7 @@ ReactDOM.render((<Provider store={store}>
 									<IndexRoute component={WellsitesByGridIndex}/>
 									<Route path="view/:wellsiteId" component={WellsitesByGridDetail} />	
 									<Route path="edit/:wellsiteId" component={WellsitesByGridEdit} />	
+									<Route path="add/" component={WellsitesByGridCreate} />	
 								</Route>
 
 								<Route path="by3D">
