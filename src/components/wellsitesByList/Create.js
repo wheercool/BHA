@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router'
 import {connect} from 'react-redux'
-import {Col, Button, Panel} from 'react-bootstrap'
+import {Col, Button, Panel, Glyphicon} from 'react-bootstrap'
 
 import WellsiteEditor from '../WellsiteEditor'
 
@@ -11,13 +11,15 @@ import WellsiteEditor from '../WellsiteEditor'
 		let props = this.props,
 			wellsiteId = props.params.wellsiteId;
 		let buttonToolbar = <div><Button bsStyle="success" onClick={props.onCreate.bind(this, this)}>Create</Button>
-				<Link to="/wellsites/byList" className="btn btn-default">Close</Link></div>
+				<Link to="/wellsites/byList" className="btn btn-default">Close</Link></div>,
+
+			addHeader = <div><Glyphicon glyph="plus"/> Add Wellsite</div>;
 
 		return (<div>			
 
 			<Col sm={6} smOffset={3}>
-				<Panel header="Add Wellsite" footer={buttonToolbar}>
-					<WellsiteEditor ref="editor" type="add" item={{}} />
+				<Panel header={addHeader} footer={buttonToolbar}>
+					<WellsiteEditor type="add" item={{}} />
 				</Panel>
 				
 			</Col>

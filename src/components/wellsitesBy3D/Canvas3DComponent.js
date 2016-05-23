@@ -11,7 +11,9 @@ var store, scene = new THREE.Scene(),
 
 var	containersPadding = 15,
 		titleMargin = 10 + 20,
-		isFullScreen = true;
+		isFullScreen = true,
+		resizeCallback,
+		animationStopped = false;
 
 
 
@@ -268,11 +270,10 @@ var	containersPadding = 15,
 			var width = canvas.clientWidth;
 			var height = canvas.clientHeight;
 			views.forEach(function(v) {
-				var titleHeight = document.getElementById('bha-title').clientHeight,
-					panelHeaderHeight = document.getElementById('panel-header').clientHeight;
+				var panelHeaderHeight = document.getElementById('panel-header').clientHeight;
 
-				v.element.style.height = isFullScreen?(window.innerHeight - titleHeight - 7 * containersPadding - titleMargin - 1 * panelHeaderHeight) + 'px'
-					:(window.innerHeight - titleHeight - 9 * containersPadding - titleMargin - 2 * panelHeaderHeight) / 2 + 'px'
+				v.element.style.height = isFullScreen?(window.innerHeight - 7 * containersPadding - titleMargin - 1 * panelHeaderHeight) + 'px'
+					:(window.innerHeight - 9 * containersPadding - titleMargin - 2 * panelHeaderHeight) / 2 + 'px'
 			})
 			if ( canvas.width !== width || canvas.height != height ) {
 
@@ -281,9 +282,9 @@ var	containersPadding = 15,
 			}
 
 		}
-
+		resizeCallback = updateSize
 		function animate() {
-
+			if (animationStopped) return;
 			render();
 			requestAnimationFrame( animate );
 
@@ -291,7 +292,7 @@ var	containersPadding = 15,
 
 		function render() {
 
-			
+			var canvasRect = document.getElementById('canvas3d-component').getBoundingClientRect();
 
 			updateSize();
 
@@ -299,12 +300,13 @@ var	containersPadding = 15,
 			renderer.setScissorTest( false );
 			renderer.clear();
 
-			renderer.setClearColor( 0xe0e0e0 );
+			renderer.setClearColor( 0xffffff );
 			renderer.setScissorTest( true );
 
-			views.forEach(function(view) {
+			views.forEach(function(view, i) {
+				// if (i !=2) return;
 				var rect = view.container.getBoundingClientRect();
-
+			
 					// check if it's offscreen. If so skip it
 				if ( rect.bottom < 0 || rect.top  > renderer.domElement.clientHeight ||
 					 rect.right  < 0 || rect.left > renderer.domElement.clientWidth ) {
@@ -321,6 +323,8 @@ var	containersPadding = 15,
 				renderer.setViewport( left, bottom, width, height );
 				renderer.setScissor( left, bottom, width, height );
 
+				// renderer.setViewport( left, 100, width, height );	
+				// renderer.setScissor( left, 100, width, height );
 				var camera = view.camera;
 				if (camera instanceof THREE.OrthographicCamera) {
 					// console.log(width + '-' + height)
@@ -356,7 +360,6 @@ var	containersPadding = 15,
 
 	}
 
-	
 class Canvas3DComponent extends React.Component {
 	componentDidMount() {
 		store = this.props.data;
@@ -383,9 +386,25 @@ class Canvas3DComponent extends React.Component {
 			addMeshes();
 		}
     return (
-      <canvas ref="canvas" id="canvas3d-component" className="canvas3d-component">
-      </canvas>
+    	<div></div>
+      // <canvas id="canvas3d-component" className="canvas3d-component">
+      // </canvas>
     );
+  }
+  componentWillMount() {
+  	animationStopped = false;
+  	let canvas = document.createElement('canvas');
+  	canvas.setAttribute('id', 'canvas3d-component');
+  	canvas.setAttribute('class', 'canvas3d-component');
+  	let app = document.getElementById('app');
+  	window.document.body.insertBefore(canvas, window.document.body.firstChild);
+
+  }
+  componentWillUnmount() {
+  	let canvas = document.getElementById('canvas3d-component')
+  	document.body.removeChild(canvas)
+  	document.removeEventListener('resize', resizeCallback)
+  	animationStopped = true;
   }
 }
 

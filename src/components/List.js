@@ -51,7 +51,7 @@ class List extends Component {
 				</FormGroup>
 				<ListGroup>
 					{filteredItems.map((w, idx) => <ListGroupItem key={idx} className={selectedId == w.id? "active" : ""}>
-							<Button disabled={disabled} className={itemClassName} onClick={this.onDelete.bind(this, true)}><span className="text-danger" aria-hidden="true">&times;</span></Button>
+							<div disabled={disabled} className={itemClassName} onClick={this.onDelete.bind(this, true)}><span className="text-danger" aria-hidden="true">&times;</span></div>
 							{selectedId == w.id? <span>{w.name}</span> : <span><Link to={baseUrl + '/view/' + w.id}>{w.name}</Link></span>}
 							<div className="clearfix"/>
 							</ListGroupItem>)}

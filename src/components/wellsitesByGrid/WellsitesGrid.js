@@ -4,6 +4,7 @@ import {Link} from 'react-router'
 import classNames from 'classNames'
 import { hashHistory } from 'react-router'
 import Confirm from '../Confirm'
+import DeleteButton from '../DeleteButton'
 
 let onClick = (id, baseUrl, deselect) => {
 	hashHistory.push(deselect? baseUrl: baseUrl + '/view/' + id)
@@ -22,7 +23,7 @@ class WellsitesGrid extends Component {
 				<Link 	to={props.baseUrl + '/edit/' + props.selectedId} 
 						className="btn btn-primary" 						
 						disabled={!props.selectedId}>Edit</Link>
-				<Button bsStyle="danger" disabled={!props.selectedId} onClick={this.onDelete.bind(this, true)}>Delete</Button>
+				<DeleteButton disabled={!props.selectedId} onClick={this.onDelete.bind(this, true)} />
 			</ButtonGroup>;
 		let header = <div>
 

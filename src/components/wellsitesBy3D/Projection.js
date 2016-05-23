@@ -11,7 +11,7 @@ class Projection extends React.Component{
     	<div className="Projection" style={this.props.style}>
 	        <div className={className}>
 				<div className="panel panel-default">
-					<div className="panel-heading">
+					<div className="panel-heading" id="panel-header">
 						<h3 className="panel-title pull-left">{this.props.title}</h3>
 						<div className="btn-group pull-right">
 							<button className="btn btn-default">Fit</button>

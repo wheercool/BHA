@@ -1,5 +1,5 @@
 import React from 'react'
-import {Table, Col, Button, Panel} from 'react-bootstrap'
+import {Table, Col, Button, Panel, Glyphicon} from 'react-bootstrap'
 import {Link} from 'react-router'
 import connect from './connect'
 import WellsitesGrid from './WellsitesGrid'
@@ -9,7 +9,9 @@ import WellsiteEditor from '../WellsiteEditor'
 let Edit = (props) => {
 	let wellsiteId = props.params.wellsiteId;
 	let buttonToolbar = <div><Button bsStyle="success">OK</Button>
-				<Link to={'/wellsites/byGrid/view/' + wellsiteId} className="btn btn-default">Cancel</Link></div>;
+				<Link to={'/wellsites/byGrid/view/' + wellsiteId} className="btn btn-default">Cancel</Link></div>,
+
+				header = <div><Glyphicon glyph="pencil"/> Edit Wellsite</div>	
 	return (<div>
 			
 		<Col sm={6}>
@@ -19,7 +21,7 @@ let Edit = (props) => {
 		</Col>
 
 		<Col sm={6}>
-			<Panel header="Edit Wellsite" footer={buttonToolbar}>
+			<Panel header={header} footer={buttonToolbar}>
 			<WellsiteEditor noChildren className="pull-right" baseUrl="/wellsites/byGrid" item={{}}/>
 				</Panel>
 			

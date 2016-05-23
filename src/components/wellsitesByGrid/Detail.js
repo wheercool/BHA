@@ -6,13 +6,16 @@ import WellsitesGrid from './WellsitesGrid'
 import WellsiteWellsGrid from './WellsiteWellsGrid'
 
 let Wellsites = (props) => {
-	let wellsiteId = props.params.wellsiteId;
+	let wellsiteId = props.params.wellsiteId,
+		wellsiteName = props.wellsites.filter(w => w.id == wellsiteId)[0].name;
 
 	return (<div>
 			
-		<WellsitesGrid data={props.wellsites} baseUrl="/wellsites/byGrid" selectedId={wellsiteId} />
+		<WellsitesGrid 	data={props.wellsites} 
+						baseUrl="/wellsites/byGrid"
+						selectedId={wellsiteId} />
 		
-		<WellsiteWellsGrid data={props.wells}/>
+		<WellsiteWellsGrid data={props.wells} title={wellsiteName + " Wellsites"}/>
 
 		</div>)
 }

@@ -2,13 +2,15 @@ require('normalize.css/normalize.css');
 require('styles/App.css');
 
 import React from 'react';
+import {Link} from 'react-router'
+import {connect} from 'react-redux'
+import {Col} from 'react-bootstrap'
+
 import Canvas3D from './Canvas3DComponent'
 import WellboreList from './WellboreListComponent'
 import Projection from './Projection'
 import WellboreForm from './WellboreForm'
-import NavigationPanel from './NavigationPanel'
-import {Link} from 'react-router'
-import {connect} from 'react-redux'
+import List from '../List'
 
 class AppComponent extends React.Component {
 
@@ -33,9 +35,10 @@ class AppComponent extends React.Component {
       	<Canvas3D data={props.wellbores.filter(x => x.isSelected)}
       			  isFullScreenMode={props.fullScreenModeProjectionIndex >= 0}></Canvas3D>
         <div className="container-fluid">
-		<h1 id="bha-title">BHA View</h1>
+		
 
 		<div className="row">
+		 { /*
 			<div className="col-sm-2">
 			<div className="panel panel-default">
 				<div id="panel-header" className="panel-heading">
@@ -57,9 +60,9 @@ class AppComponent extends React.Component {
 			</div>
 
 			</div>
-		
-		<section className="col-sm-8">
-			<Link to="/bha/wellsites">Test</Link>
+			*/
+		}
+		<section className="col-sm-10">
 			<div className="wrapper"></div>
 			<div className="view-container">
 					
@@ -75,11 +78,9 @@ class AppComponent extends React.Component {
 				
 			</div>
 		</section>
-		
-			<div className="col-sm-2">				
-				{this.props.children}
-			</div>
-		
+		<Col sm={2}>
+			<List title="Wellsites" disabled data={props.wellsites} baseUrl="/wellsites/by3D"/>
+		</Col>
 		</div>
 		</div>
       </div>
