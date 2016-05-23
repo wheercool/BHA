@@ -16,6 +16,7 @@ class AppComponent extends React.Component {
 
 
   render() {
+  	let wellsiteId = this.props.params.wellsiteId;
   	const projectionList = [{
   		id: 'plane-container',
   		title: 'Plane'
@@ -79,7 +80,11 @@ class AppComponent extends React.Component {
 			</div>
 		</section>
 		<Col sm={2}>
-			<List title="Wellsites" disabled data={props.wellbores}/>
+			
+				<List title="Wellsites" disabled 
+									data={props.wellsites}
+									selectedId={wellsiteId}
+									baseUrl="wellsites/by3D"/>			
 		</Col>
 		</div>
 		</div>

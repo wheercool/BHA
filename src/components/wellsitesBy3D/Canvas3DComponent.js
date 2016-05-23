@@ -300,7 +300,7 @@ var	containersPadding = 15,
 			renderer.setScissorTest( false );
 			renderer.clear();
 
-			renderer.setClearColor( 0xe0e0e0 );
+			renderer.setClearColor( 0xffffff );
 			renderer.setScissorTest( true );
 
 			views.forEach(function(view, i) {

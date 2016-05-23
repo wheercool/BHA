@@ -3,6 +3,7 @@ import {Table, ButtonGroup, Button, Panel, Col, FormGroup, FormControl, InputGro
 import {Link} from 'react-router'
 import classNames from 'classNames'
 import { hashHistory } from 'react-router'
+import DeleteButton from '../DeleteButton'
 
 let onClick = (id, baseUrl) => {
 	hashHistory.push(baseUrl + '/view/' + id)
@@ -14,7 +15,7 @@ class WellsiteWellsGrid extends Component {
 		let buttonToolbar = <ButtonGroup>
 				
 				<Button bsStyle="primary" disabled={!props.selectedId}>Edit</Button>
-				<Button bsStyle="danger" disabled={!props.selectedId}>Delete</Button>
+				<DeleteButton disabled={!props.selectedId} />
 			</ButtonGroup>;
 		let header = <FormGroup >
 

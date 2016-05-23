@@ -7,9 +7,8 @@ import { Provider } from 'react-redux'
 import { Router, Route, IndexRoute, IndexRedirect, browserHistory, hashHistory } from 'react-router'
 import App from './reducers'
 
+//Entry Point
 import Main from './components/Main';
-import NavigationPanel from './components/NavigationPanel';
-import ProjectExplorer from './components/ProjectExplorer';
 
 //Projects
 import Projects from './components/Projects'
@@ -30,8 +29,11 @@ import WellsitesByGridDetail from './components/wellsitesByGrid/Detail'
 import WellsitesByGridEdit from './components/wellsitesByGrid/Edit'
 import WellsitesByGridCreate from './components/wellsitesByGrid/Create'
 
+
 //By 3D
 import BHA from './components/wellsitesBy3D/BHA'
+import WellsitesBy3DIndex from './components/wellsitesBy3D/Index'
+import WellsitesBy3DDetail from './components/wellsitesBy3D/Detail'
 
 const store = createStore(App)
 
@@ -67,7 +69,8 @@ ReactDOM.render((<Provider store={store}>
 								</Route>
 
 								<Route path="by3D">
-									<IndexRoute component={BHA}/>
+									<IndexRoute component={WellsitesBy3DIndex}/>
+									<Route path="view/:wellsiteId" component={WellsitesBy3DDetail}/>
 								</Route>
 							</Route>
 															
