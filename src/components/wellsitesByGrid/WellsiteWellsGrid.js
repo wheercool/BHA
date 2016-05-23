@@ -9,7 +9,8 @@ let onClick = (id, baseUrl) => {
 }
 class WellsiteWellsGrid extends Component {
 	render() {
-		let props = this.props;
+		let props = this.props,
+			{title} = props;
 		let buttonToolbar = <ButtonGroup>
 				
 				<Button bsStyle="primary" disabled={!props.selectedId}>Edit</Button>
@@ -19,7 +20,7 @@ class WellsiteWellsGrid extends Component {
 
 				 	<InputGroup >
 				 		<InputGroup.Addon className="search-input-group"><Link to={props.baseUrl + "/add/"} className="btn-success btn-lg"><Glyphicon glyph="plus"/></Link></InputGroup.Addon>
-				 		<InputGroup.Addon className="search-input-group"><h5>Wellsite Wells</h5></InputGroup.Addon>
+				 		<InputGroup.Addon className="search-input-group"><h5>{title}</h5></InputGroup.Addon>
 				    	<Col sm={3} className="pull-right"><FormControl type="text" placeholder="Search..." /></Col>
 				    </InputGroup>
 				</FormGroup>;
