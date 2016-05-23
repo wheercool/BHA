@@ -30,6 +30,8 @@ import WellsitesByGridDetail from './components/wellsitesByGrid/Detail'
 import WellsitesByGridEdit from './components/wellsitesByGrid/Edit'
 import WellsitesByGridCreate from './components/wellsitesByGrid/Create'
 
+//By 3D
+import BHA from './components/wellsitesBy3D/BHA'
 
 const store = createStore(App)
 
@@ -65,7 +67,7 @@ ReactDOM.render((<Provider store={store}>
 								</Route>
 
 								<Route path="by3D">
-									<IndexRoute component={Empty}/>
+									<IndexRoute component={BHA}/>
 								</Route>
 							</Route>
 															

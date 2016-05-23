@@ -52,7 +52,7 @@ class List extends Component {
 		</div>)
 	}
 	removeButton() {
-		return <Button className="pull-right close" onClick={this.onDelete.bind(this, true)}><span className="text-danger" aria-hidden="true">&times;</span></Button>
+		return <div className="pull-right close" onClick={this.onDelete.bind(this, true)}><span className="text-danger" aria-hidden="true">&times;</span></div>
 	}
 	header(w) {
 		return <div>

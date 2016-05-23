@@ -3,7 +3,7 @@ import AtlasNav from './AtlasNav'
 import {connect} from 'react-redux'
 require('styles/Main.css')
 require('styles/sb-admin-2.css')
-
+require('styles/theme.css')
 
 class Main extends Component {
 
