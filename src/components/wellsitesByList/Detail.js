@@ -4,7 +4,6 @@ import {connect} from 'react-redux'
 import {Col} from 'react-bootstrap'
 
 import WellsiteEditor from '../WellsiteEditor'
-import List from '../List'
 
 let Detail = props => {
 		
@@ -14,12 +13,7 @@ let Detail = props => {
 
 		return (<div>
 			
-			<Col sm={5}>
-				<List data={props.wellsites} selectedId={wellsiteId} baseUrl="wellsites/byList"/>
-				
-			</Col>
-
-			<Col sm={7}>
+			<Col sm={6} smOffset={3}>
 				<WellsiteEditor item={wellsite} wellsiteName={wellsiteName} disabled/>
 				<Link to={"/wellsites/byList/edit/" + wellsiteId} className="btn btn-primary">Edit</Link>
 				<Link to="/wellsites/byList" className="btn btn-default">Close</Link>
@@ -29,14 +23,18 @@ let Detail = props => {
 }
 
 let mapProps = (state) => {
-	let wellsites = state.main.wellsites;
-
+	var wellsites = state.main.wellsites.map(w => ({
+		id: w.id,
+		name: w.name,
+		city: w.city,
+		address: w.address,
+		postcode: w.postcode,
+		wells: state.main.wells.filter(well => well.wellsiteId == w.id)
+	}));
 	return {
 		wellsites: wellsites
 	}
 }
+let dispatch = (d) => {return {}}
 
-let mapDispatch = (dispath) => { return {}};
-
-
-export default connect(mapProps, mapDispatch)(Detail);
+export default connect(mapProps, dispatch)(Detail);

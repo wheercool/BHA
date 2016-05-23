@@ -6,7 +6,7 @@ import WellsitesGrid from './WellsitesGrid'
 import WellsiteWellsGrid from './WellsiteWellsGrid'
 import WellsiteEditor from '../WellsiteEditor'
 
-let Edit = (props) => {
+let Create = (props) => {
 	let wellsiteId = props.params.wellsiteId;
 	let buttonToolbar = <div><Button bsStyle="success">OK</Button>
 				<Link to={'/wellsites/byGrid/view/' + wellsiteId} className="btn btn-default">Cancel</Link></div>;
@@ -19,7 +19,7 @@ let Edit = (props) => {
 		</Col>
 
 		<Col sm={6}>
-			<Panel header="Edit Wellsite" footer={buttonToolbar}>
+			<Panel header="New Wellsite" footer={buttonToolbar}>
 			<WellsiteEditor noChildren className="pull-right" baseUrl="/wellsites/byGrid" item={{}}/>
 				</Panel>
 			
@@ -28,4 +28,4 @@ let Edit = (props) => {
 		</div>)
 }
 
-export default  connect.defaultConnect(Edit);
+export default  connect.defaultConnect(Create);

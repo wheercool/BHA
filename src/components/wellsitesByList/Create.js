@@ -3,7 +3,6 @@ import {Link} from 'react-router'
 import {connect} from 'react-redux'
 import {Col, Button, Panel} from 'react-bootstrap'
 
-import List from '../List'
 import WellsiteEditor from '../WellsiteEditor'
 
  class Create extends Component {
@@ -15,12 +14,9 @@ import WellsiteEditor from '../WellsiteEditor'
 				<Link to="/wellsites/byList" className="btn btn-default">Close</Link></div>
 
 		return (<div>			
-			<Col sm={5}>
-				<List data={props.wellsites} baseUrl="wellsites/byList"/>
-			</Col>
 
-			<Col sm={7}>
-				<Panel header="Add" footer={buttonToolbar}>
+			<Col sm={6} smOffset={3}>
+				<Panel header="Add Wellsite" footer={buttonToolbar}>
 					<WellsiteEditor ref="editor" type="add" item={{}} />
 				</Panel>
 				
@@ -30,8 +26,14 @@ import WellsiteEditor from '../WellsiteEditor'
 	}
 }
 let mapProps = (state) => {
-	let wellsites = state.main.wellsites;
-
+	var wellsites = state.main.wellsites.map(w => ({
+		id: w.id,
+		name: w.name,
+		city: w.city,
+		address: w.address,
+		postcode: w.postcode,
+		wells: state.main.wells.filter(well => well.wellsiteId == w.id)
+	}));
 	return {
 		wellsites: wellsites
 	}
