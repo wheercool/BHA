@@ -6,8 +6,8 @@ import { hashHistory } from 'react-router'
 import Confirm from '../Confirm'
 import DeleteButton from '../DeleteButton'
 
-let onClick = (id, baseUrl, deselect) => {
-	hashHistory.push(deselect? baseUrl: baseUrl + '/view/' + id)
+let onClick = (id, baseUrl, selectUrl, deselect) => {
+	hashHistory.push(deselect? baseUrl: selectUrl + '/' + id)
 }
 class WellsitesGrid extends Component {
 	constructor(props) {
@@ -15,22 +15,25 @@ class WellsitesGrid extends Component {
 		this.state = {show: false}
 	}
 	render() {
+		const {baseUrl, selectedId, data, onDelete} = this.props
+		const selectUrl = this.props.selectUrl || baseUrl + '/view'
 		let props = this.props,
+
 			className = (w) => classNames({active: w.id == props.selectedId});
 
 		let buttonToolbar = <ButtonGroup>
 				
-				<Link 	to={props.baseUrl + '/edit/' + props.selectedId} 
+				<Link 	to={baseUrl + '/edit/' + selectedId} 
 						className="btn btn-primary" 						
-						disabled={!props.selectedId}>Edit</Link>
-				<DeleteButton disabled={!props.selectedId} onClick={this.onDelete.bind(this, true)} />
+						disabled={!selectedId}>Edit</Link>
+				<DeleteButton disabled={!selectedId} onClick={this.onDelete.bind(this, true)} />
 			</ButtonGroup>;
 		let header = <div>
 
 				<FormGroup >
 
 				 	<InputGroup >
-				 		<InputGroup.Addon className="search-input-group"><Link to={props.baseUrl + "/add/"} className="btn-success btn-lg"><Glyphicon glyph="plus"/></Link></InputGroup.Addon>
+				 		<InputGroup.Addon className="search-input-group"><Link to={baseUrl + "/add/"} className="btn-success btn-lg"><Glyphicon glyph="plus"/></Link></InputGroup.Addon>
 				 		<InputGroup.Addon className="search-input-group"><h5>Wellsites</h5></InputGroup.Addon>
 				    	<Col sm={3} className="pull-right"><FormControl type="text" placeholder="Search..." /></Col>
 				    </InputGroup>
@@ -50,8 +53,8 @@ class WellsitesGrid extends Component {
 				</thead>
 
 				<tbody>
-					{props.data.map((w, idx) =><tr key={idx} className={className(w)} onClick={onClick.bind(null, w.id, props.baseUrl, props.selectedId == w.id)} >
-							<td><input type="checkbox" checked={w.id == props.selectedId} readOnly/></td>
+					{data.map((w, idx) =><tr key={idx} className={className(w)} onClick={onClick.bind(null, w.id, baseUrl, selectUrl, selectedId == w.id)} >
+							<td><input type="checkbox" checked={w.id == selectedId} readOnly/></td>
 							<td>{w.id}</td>
 							<td>{w.name}</td>
 							<td>{w.city}</td>
@@ -60,7 +63,7 @@ class WellsitesGrid extends Component {
 						</tr>)}
 				</tbody>
 			</Table>
-			<Confirm show={this.state.show} onYes={this.props.onDelete} onNo={this.onDelete.bind(this, false)}/>
+			<Confirm show={this.state.show} onYes={onDelete} onNo={this.onDelete.bind(this, false)}/>
 		</Panel>)
 
 

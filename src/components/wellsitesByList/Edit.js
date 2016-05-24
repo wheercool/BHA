@@ -4,6 +4,7 @@ import {connect} from 'react-redux'
 import {Col, Button, Panel, Glyphicon} from 'react-bootstrap'
 
 import WellsiteEditor from '../WellsiteEditor'
+import List from '../List'
 
 let Edit = props => {
 		let wellsiteId = props.params.wellsiteId,
@@ -18,7 +19,8 @@ let Edit = props => {
 
 			<Col sm={6} smOffset={3}>
 				<Panel header={header} footer={buttonToolbar}>
-					<WellsiteEditor item={wellsite} wellsiteName={wellsiteName} />
+					<WellsiteEditor initialValues={wellsite} wellsiteName={wellsiteName} />
+					<List data={wellsite.wells} title="Wells"/>
 				</Panel>
 				
 			</Col>

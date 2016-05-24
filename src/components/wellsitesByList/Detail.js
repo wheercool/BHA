@@ -1,9 +1,10 @@
 import React from 'react'
 import {Link} from 'react-router'
 import {connect} from 'react-redux'
-import {Col} from 'react-bootstrap'
+import {Col, FormGroup} from 'react-bootstrap'
 
 import WellsiteEditor from '../WellsiteEditor'
+import List from '../List'
 
 let Detail = props => {
 		
@@ -14,7 +15,11 @@ let Detail = props => {
 		return (<div>
 			
 			<Col sm={6} smOffset={3}>
-				<WellsiteEditor item={wellsite} wellsiteName={wellsiteName} disabled/>
+				<WellsiteEditor initialValues={wellsite} disabled/>
+				
+				<List data={wellsite.wells} disabled title="Wells"/>
+				
+
 				<Link to={"/wellsites/byList/edit/" + wellsiteId} className="btn btn-primary">Edit</Link>
 				<Link to="/wellsites/byList" className="btn btn-default">Close</Link>
 			</Col>

@@ -5,35 +5,30 @@ import {reduxForm} from 'redux-form'
 import List from './List'
 
 let WellsiteEditor = (props) => {
-	const {fields: {name, city, address, postcode}} = props;
-	const {item: {wells = []}, disabled, noChildren} = props;
+	const {fields: {name, city, address, postcode}, wells} = props;
+	const {disabled} = props;	
 	return ( <form>
 		 
 		 <FormGroup >
 		  	<ControlLabel>Name</ControlLabel>
-		    <FormControl type="text" placeholder="New Wellsite" {...name} key={props.item.name} defaultValue={props.wellsiteName} disabled={props.disabled}/>
+		    <FormControl type="text" placeholder="New Wellsite" {...name} disabled={props.disabled}/>
 		</FormGroup>
 
 		 <FormGroup>
 		  	<ControlLabel>City</ControlLabel>
-		    <FormControl type="text" placeholder="City" {...city} key={props.item.city} defaultValue={props.item.city} disabled={props.disabled}/>
+		    <FormControl type="text" placeholder="City" {...city} disabled={props.disabled}/>
 		</FormGroup>
 
 		 <FormGroup>
 		  	<ControlLabel>Address</ControlLabel>
-		    <FormControl type="text" placeholder="Address" {...address} key={props.item.address} defaultValue={props.item.address} disabled={props.disabled}/>
+		    <FormControl type="text" placeholder="Address" {...address} disabled={props.disabled}/>
 		</FormGroup>
 
 		 <FormGroup>
 		  	<ControlLabel>Postcode</ControlLabel>
-		    <FormControl type="Postcode" placeholder="Postcode" {...postcode} key={props.item.postcode} defaultValue={props.item.postcode} disabled={props.disabled}/>
+		    <FormControl type="Postcode" placeholder="Postcode" {...postcode} disabled={props.disabled}/>
 		</FormGroup>
-		
-		{!noChildren &&
-			<FormGroup>
-				<List data={wells} disabled={disabled} title="Wells"/>
-			</FormGroup>
-		}
+			
 		</form>)
 }
 
