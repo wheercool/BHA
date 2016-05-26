@@ -4,10 +4,12 @@ import {Link} from 'react-router'
 import {reduxForm} from 'redux-form'
 import List from './List'
 
+const log = x => { debugger; console.log(x); return false}
+
 let WellsiteEditor = (props) => {
 	const {fields: {name, city, address, postcode}, wells} = props;
 	const {disabled} = props;	
-	return ( <form>
+	return ( <form onSubmit={log}>
 		 
 		 <FormGroup >
 		  	<ControlLabel>Name</ControlLabel>
@@ -29,6 +31,8 @@ let WellsiteEditor = (props) => {
 		    <FormControl type="Postcode" placeholder="Postcode" {...postcode} disabled={props.disabled}/>
 		</FormGroup>
 			
+		{props.children}
+
 		</form>)
 }
 

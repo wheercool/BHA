@@ -9,4 +9,19 @@ const App = combineReducers({
 	form: formReducer
 })
 
-export default App
+let topLevelReducer = (state, action) => {	
+	console.log('Top Level reducer')
+	// switch(action.type) {
+	// 	'FLUSH_FORM':
+	// 		return {
+	// 			main:
+	// 			routing: state.routing,
+	// 			form: {
+					
+	// 			}
+	// 		}
+	// }
+	return App(state, action)
+}
+
+export default topLevelReducer

@@ -12,14 +12,18 @@ let Edit = props => {
 			wellsiteName = wellsite.name;
 
 		let buttonToolbar = <div><Button bsStyle="success">OK</Button>
-				<Link to={"/wellsites/byList/view/" + wellsiteId} className="btn btn-default">Cancel</Link></div>,
+				<Link to={"/wellsites/byList/view/" + wellsiteId} className="btn btn-default">Cancel</Link>
+				<Link to="/wellsites/byList/" className="btn btn-default pull-right"><Glyphicon glyph="arrow-up" /> Back</Link>
+
+			</div>,
 
 			header = <div><Glyphicon glyph="pencil"/> Edit Wellsite</div>	
 		return (<div>	
 
 			<Col sm={6} smOffset={3}>
 				<Panel header={header} footer={buttonToolbar}>
-					<WellsiteEditor initialValues={wellsite} wellsiteName={wellsiteName} />
+					<WellsiteEditor initialValues={wellsite} wellsiteName={wellsiteName}>						
+					</WellsiteEditor>
 					<List data={wellsite.wells} title="Wells"/>
 				</Panel>
 				
