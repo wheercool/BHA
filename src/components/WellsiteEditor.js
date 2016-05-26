@@ -7,10 +7,11 @@ import List from './List'
 const log = x => { debugger; console.log(x); return false}
 
 let WellsiteEditor = (props) => {
-	const {fields: {name, city, address, postcode}, wells} = props;
+	const {fields: {id, name, city, address, postcode}, wells} = props;
 	const {disabled} = props;	
 	return ( <form onSubmit={log}>
 		 
+
 		 <FormGroup >
 		  	<ControlLabel>Name</ControlLabel>
 		    <FormControl type="text" placeholder="New Wellsite" {...name} disabled={props.disabled}/>
@@ -38,7 +39,7 @@ let WellsiteEditor = (props) => {
 
 WellsiteEditor = reduxForm({ // <----- THIS IS THE IMPORTANT PART!
   form: 'wellsite',                           // a unique name for this form
-  fields: ['name', 'city', 'address', 'postcode'] // all the fields in your form
+  fields: ['id', 'name', 'city', 'address', 'postcode'] // all the fields in your form
 })(WellsiteEditor);
 
 

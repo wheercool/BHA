@@ -1,17 +1,28 @@
 import React from 'react'
-import {Link} from 'react-router'
+import {Link, hashHistory} from 'react-router'
 import {connect} from 'react-redux'
 import {Col, Button, Panel, Glyphicon} from 'react-bootstrap'
 
 import WellsiteEditor from '../WellsiteEditor'
 import List from '../List'
+import {editWellsite} from 'actions'
 
 let Edit = props => {
-		let wellsiteId = props.params.wellsiteId,
+		const { params: {wellsiteId}, form,  onEdit}= props,
 			wellsite = props.wellsites.filter(w => w.id == wellsiteId)[0],
 			wellsiteName = wellsite.name;
+		const onEditButtonClick = () => {
+			let itemValue = {
+				id: form.id.value,
+				name: form.name.value,
+				city: form.city.value,
+				address: form.address.value,
+				postcode: form.postcode.value
+			}
+			onEdit(itemValue)
+		}
 
-		let buttonToolbar = <div><Button bsStyle="success">OK</Button>
+		let buttonToolbar = <div><Button bsStyle="success" onClick={onEditButtonClick}>OK</Button>
 				<Link to={"/wellsites/byList/view/" + wellsiteId} className="btn btn-default">Cancel</Link>
 				<Link to="/wellsites/byList/" className="btn btn-default pull-right"><Glyphicon glyph="arrow-up" /> Back</Link>
 
@@ -22,7 +33,7 @@ let Edit = props => {
 
 			<Col sm={6} smOffset={3}>
 				<Panel header={header} footer={buttonToolbar}>
-					<WellsiteEditor initialValues={wellsite} wellsiteName={wellsiteName}>						
+					<WellsiteEditor initialValues={wellsite}>						
 					</WellsiteEditor>
 					<List data={wellsite.wells} title="Wells"/>
 				</Panel>
@@ -41,11 +52,20 @@ let mapProps = (state) => {
 		postcode: w.postcode,
 		wells: state.main.wells.filter(well => well.wellsiteId == w.id)
 	}));
+
 	return {
-		wellsites: wellsites
+		wellsites: wellsites,
+		form: state.form.wellsite
 	}
 }
-let mapDispatch = (dispath) => { return {}};
+let mapDispatch = (dispatch) => { 
+
+		return {
+			onEdit: (item) => {
+				dispatch(editWellsite(item, '/wellsites/byList'))
+			}
+		}
+	};
 
 
 export default connect(mapProps, mapDispatch)(Edit);

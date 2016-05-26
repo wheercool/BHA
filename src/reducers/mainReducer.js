@@ -1,5 +1,5 @@
 import converter  from '../helpers/trajectory';
-
+import actionTypes from 'actions/actionTypes'
 var incomingData = [
 	[0,0,0],
 	[293,0,0],
@@ -106,14 +106,35 @@ const defaultState = {
 	}]
 };
 
-let mainReducer = (state, action) => {
+let mainReducer = (state = defaultState, action) => {
 	switch (action.type) {
 
-		case 'CREATE':
-
+		case actionTypes.addWellsite: 
+			let newId = Math.max.apply(null, state.wellsites.map(w => w.id)) + 1,
+				w = action.payload;
 			return {
-				wellsites: state.main.wellsites.concat(state.form.wellsite)
+				wellsites: state.wellsites.concat({
+					id: newId,
+					name: w.name,
+					city: w.city,
+					address: w.address,
+					postcode: w.postcode
+				}),
+				wells: state.wells
 			}
+
+		case actionTypes.editWellsite: 
+			return {
+				wellsites: state.wellsites.map(w => w.id == action.payload.id? action.payload: w),
+				wells: state.wells
+			}
+
+		case actionTypes.removeWellsite: 
+			return {
+				wellsites: state.wellsites.filter(w => w.id != action.payload.id),
+				wells: state.wells
+			}
+		
 		case 'TOGGLE_WELLBORE':
 			return {
 				fullScreenModeProjectionIndex: state.fullScreenModeProjectionIndex,
@@ -153,7 +174,7 @@ let mainReducer = (state, action) => {
 			return state;
 
 		default:
-			return defaultState;
+			return state;
 
 	}
 };

@@ -5,6 +5,8 @@ import { createStore,  combineReducers, applyMiddleware} from 'redux'
 import { syncHistoryWithStore } from 'react-router-redux'
 import { Provider } from 'react-redux'
 import { Router, Route, IndexRoute, IndexRedirect, browserHistory, hashHistory } from 'react-router'
+import thunkMiddleware from 'redux-thunk'
+
 import App from './reducers'
 
 //Entry Point
@@ -35,7 +37,7 @@ import BHA from './components/wellsitesBy3D/BHA'
 import WellsitesBy3DIndex from './components/wellsitesBy3D/Index'
 import WellsitesBy3DDetail from './components/wellsitesBy3D/Detail'
 
-const store = createStore(App)
+const store = createStore(App, applyMiddleware(thunkMiddleware))
 
 store.subscribe(() => console.log('STORE: ' + JSON.stringify(store.getState())));
 
