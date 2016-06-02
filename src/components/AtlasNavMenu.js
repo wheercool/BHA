@@ -1,6 +1,6 @@
 import React from 'react'
 
-let MessageMenu = (props) => {
+let MessageMenu = () => {
 	return (<li className="dropdown">
                     <a className="dropdown-toggle" data-toggle="dropdown" href="#">
                         <i className="fa fa-envelope fa-fw"></i>  <i className="fa fa-caret-down"></i>

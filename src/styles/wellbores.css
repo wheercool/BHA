@@ -1,0 +1,7 @@
+.wellbores .panel-body {
+	min-height: 250px;
+}
+
+.rc-tree li a {
+	height: auto;
+}

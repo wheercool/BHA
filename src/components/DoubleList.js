@@ -12,7 +12,7 @@ function match(filter) {
 class List extends Component {
 	constructor(props) {
 		super(props)
-		this.state = {show: false, filter: ''}
+		this.state = {show: false, filter: ''}		
 	}
 	render() {
 		let {title, subTitle, data, baseUrl, selectedId, onDelete} = this.props,
@@ -48,15 +48,15 @@ class List extends Component {
 								</Panel>)}
 					
 				</PanelGroup>
-				<Confirm show={this.state.show} onNo={this.onDelete.bind(this, false)} onYes={this.onDelete}/>		
+				<Confirm show={this.state.show} onNo={this.onCofirm.bind(this, false)} onYes={this.onDelete.bind(this)}/>		
 		</div>)
 	}
-	removeButton() {
-		return <div className="pull-right close" onClick={this.onDelete.bind(this, true)}><span className="text-danger" aria-hidden="true">&times;</span></div>
+	removeButton(id) {
+		return <div className="pull-right close" onClick={this.onCofirm.bind(this, true, id)}><span className="text-danger" aria-hidden="true">&times;</span></div>
 	}
 	header(w) {
 		return <div>
-			{this.removeButton()}
+			{this.removeButton(w.id)}
 			{this.link(w)}
 			<div className="clearfix" />
 		</div>
@@ -64,8 +64,18 @@ class List extends Component {
 	link(w) {
 		return this.props.selectedId == w.id? <span>{w.name}</span> : <span><Link to={this.props.baseUrl + '/view/' + w.id}>{w.name}</Link></span>
 	}
-	onDelete(show) {
-		this.setState({show: show})
+	onCofirm(show, id) {
+		this.setState({
+			show: show,
+			deletingItemId: id
+		})
+	}
+	onDelete() {
+		this.props.onDelete(this.state.deletingItemId)
+		this.setState({
+			show: false,
+			deletingItemId: null
+		})
 	}
 	onFilterChanged(event) {
 		this.setState({

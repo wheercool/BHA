@@ -1,0 +1,16 @@
+.actions-column {
+	width: 80px;
+	text-align: center;
+}
+.actions-column.editable, .move-column.editable {
+	font-size: 16px;
+}
+
+.move-column {
+	width: 50px;
+	text-align: center;
+}
+
+.text-edit {
+	color: black;
+}

@@ -1,5 +1,5 @@
 import converter  from '../helpers/trajectory';
-
+import actionTypes from 'actions/actionTypes'
 var incomingData = [
 	[0,0,0],
 	[293,0,0],
@@ -75,45 +75,91 @@ const defaultState = {
 		name: 'Well 1',
 		nsOffset: 10,
 		ewOffset: 10,
-		motherbore: 'Wellbore 1'
+		motherbore: 1
 	},{
 		id: 2,
 		wellsiteId: 1,
 		name: 'Well 2',
 		nsOffset: 10,
 		ewOffset: 10,
-		motherbore: 'Wellbore 1'
+		motherbore: 1
 	},{
 		id: 3,
 		wellsiteId: 1,
 		name: 'Well 3',
 		nsOffset: 10,
 		ewOffset: 10,
-		motherbore: 'Wellbore 1'
+		motherbore: 1
 	},{
 		id: 4,
 		wellsiteId: 1,
 		name: 'Well 4',
 		nsOffset: 10,
 		ewOffset: 10,
-		motherbore: 'Wellbore 1'
+		motherbore: 1
 	}],
 	wellbores: [{
+		id: 1,
 		name: 'Wellbore 1',
+		parentId: -1,
+		isSelected: true,
+		trajectory: converter(incomingData).map(x => x.map(d => d/20)),
+		color: '#F17013'
+	},{
+		id: 2,
+		name: 'Wellbore 2',
+		parentId: 1,
+		isSelected: true,
+		trajectory: converter(incomingData).map(x => x.map(d => d/20)),
+		color: '#F17013'
+	},{
+		id: 3,
+		name: 'Wellbore 3',
+		parentId: 1,
+		isSelected: true,
+		trajectory: converter(incomingData).map(x => x.map(d => d/20)),
+		color: '#F17013'
+	},{
+		id: 4,
+		name: 'Wellbore 4',
+		parentId: 2,
 		isSelected: true,
 		trajectory: converter(incomingData).map(x => x.map(d => d/20)),
 		color: '#F17013'
 	}]
 };
 
-let mainReducer = (state, action) => {
+let mainReducer = (state = defaultState, action) => {
 	switch (action.type) {
 
-		case 'CREATE':
+	 	
 
+		case actionTypes.addWellsite: 
+			let newId = Math.max.apply(null, state.wellsites.map(w => w.id)) + 1,
+				w = action.payload;
 			return {
-				wellsites: state.main.wellsites.concat(state.form.wellsite)
+				wellsites: state.wellsites.concat({
+					id: newId,
+					name: w.name,
+					city: w.city,
+					address: w.address,
+					postcode: w.postcode
+				}),
+				wells: state.wells
 			}
+
+		case actionTypes.editWellsite: 
+			return {
+				wellsites: state.wellsites.map(w => w.id == action.payload.id? action.payload: w),
+				wells: state.wells
+			}
+
+		case actionTypes.removeWellsite: 
+			return {
+				wellsites: state.wellsites.filter(w => w.id != action.payload.id),
+				wells: state.wells
+			}
+		
 		case 'TOGGLE_WELLBORE':
 			return {
 				fullScreenModeProjectionIndex: state.fullScreenModeProjectionIndex,
@@ -153,7 +199,7 @@ let mainReducer = (state, action) => {
 			return state;
 
 		default:
-			return defaultState;
+			return state;
 
 	}
 };

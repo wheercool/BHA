@@ -15,7 +15,7 @@ let Wellsites = (props) => {
 						baseUrl="/wellsites/byGrid"
 						selectedId={wellsiteId} />
 		
-		<WellsiteWellsGrid data={props.wells} title={wellsiteName + " Wellsites"}/>
+		<WellsiteWellsGrid data={props.wells} title={wellsiteName + " Wells"}/>
 
 		</div>)
 }

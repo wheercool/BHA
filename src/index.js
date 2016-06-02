@@ -1,3 +1,5 @@
+require('styles/gridPlugin.css')
+
 import 'core-js/fn/object/assign';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -5,6 +7,8 @@ import { createStore,  combineReducers, applyMiddleware} from 'redux'
 import { syncHistoryWithStore } from 'react-router-redux'
 import { Provider } from 'react-redux'
 import { Router, Route, IndexRoute, IndexRedirect, browserHistory, hashHistory } from 'react-router'
+import thunkMiddleware from 'redux-thunk'
+
 import App from './reducers'
 
 //Entry Point
@@ -26,6 +30,7 @@ import WellsitesByListDelete from './components/wellsitesByList/Delete'
 //By Grid
 import WellsitesByGridIndex from './components/wellsitesByGrid/Index'
 import WellsitesByGridDetail from './components/wellsitesByGrid/Detail'
+import WellsitesByGridDetailDeep from './components/wellsitesByGrid/DetailDeep'
 import WellsitesByGridEdit from './components/wellsitesByGrid/Edit'
 import WellsitesByGridCreate from './components/wellsitesByGrid/Create'
 
@@ -35,7 +40,7 @@ import BHA from './components/wellsitesBy3D/BHA'
 import WellsitesBy3DIndex from './components/wellsitesBy3D/Index'
 import WellsitesBy3DDetail from './components/wellsitesBy3D/Detail'
 
-const store = createStore(App)
+const store = createStore(App, applyMiddleware(thunkMiddleware))
 
 store.subscribe(() => console.log('STORE: ' + JSON.stringify(store.getState())));
 
@@ -64,6 +69,7 @@ ReactDOM.render((<Provider store={store}>
 								<Route path="byGrid">
 									<IndexRoute component={WellsitesByGridIndex}/>
 									<Route path="view/:wellsiteId" component={WellsitesByGridDetail} />	
+									<Route path="view/:wellsiteId/:wellId" component={WellsitesByGridDetailDeep} />	
 									<Route path="edit/:wellsiteId" component={WellsitesByGridEdit} />	
 									<Route path="add/" component={WellsitesByGridCreate} />	
 								</Route>

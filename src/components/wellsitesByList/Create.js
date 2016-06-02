@@ -4,13 +4,25 @@ import {connect} from 'react-redux'
 import {Col, Button, Panel, Glyphicon} from 'react-bootstrap'
 
 import WellsiteEditor from '../WellsiteEditor'
+import {addWellsite} from 'actions'
 
  class Create extends Component {
 
  	render() {
-		let props = this.props,
-			wellsiteId = props.params.wellsiteId;
-		let buttonToolbar = <div><Button bsStyle="success" onClick={props.onCreate.bind(this, this)}>Create</Button>
+		const { onAdd, form} = this.props
+
+
+		const onAddButtonClick = () => {
+			let itemValue = {
+				name: form.name.value,
+				city: form.city.value,
+				address: form.address.value,
+				postcode: form.postcode.value
+			}
+			onAdd(itemValue)
+		}
+
+		let buttonToolbar = <div><Button bsStyle="success" onClick={onAddButtonClick}>Create</Button>
 				<Link to="/wellsites/byList" className="btn btn-default">Close</Link></div>,
 
 			addHeader = <div><Glyphicon glyph="plus"/> Add Wellsite</div>;
@@ -19,7 +31,7 @@ import WellsiteEditor from '../WellsiteEditor'
 
 			<Col sm={6} smOffset={3}>
 				<Panel header={addHeader} footer={buttonToolbar}>
-					<WellsiteEditor type="add" item={{}} />
+					<WellsiteEditor type="add" initialValues={{}} />
 				</Panel>
 				
 			</Col>
@@ -37,17 +49,14 @@ let mapProps = (state) => {
 		wells: state.main.wells.filter(well => well.wellsiteId == w.id)
 	}));
 	return {
-		wellsites: wellsites
+		wellsites: wellsites,
+		form: state.form.wellsite
 	}
 }
 
 let mapDispatch = (dispath) => { return {
-	onCreate: (self) => {
-		debugger;
-		dispath({
-			type: 'CREATE',
-			unit: 'wellsites'
-		})
+	onAdd: (wellsite) => {
+		dispath(addWellsite(wellsite, '/wellsites/byList'))
 	}
 }};
 

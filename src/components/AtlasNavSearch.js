@@ -2,7 +2,7 @@ import React from 'react'
 
 import {Glyphicon, Button} from 'react-bootstrap'
 
-let AtlasNavSearch = (props) => {
+let AtlasNavSearch = () => {
 	return (
 		<li className="sidebar-search">
                             <div className="input-group custom-search-form">
@@ -12,7 +12,7 @@ let AtlasNavSearch = (props) => {
                                         <Glyphicon glyph="search" />
                                     </Button>
                                 </span>
-                            </div>                            
+                            </div>
                         </li>
 	)
 }

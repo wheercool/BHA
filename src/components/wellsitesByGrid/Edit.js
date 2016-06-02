@@ -8,7 +8,8 @@ import WellsiteEditor from '../WellsiteEditor'
 
 let Edit = (props) => {
 		const {params: {wellsiteId}, wellsites, wells} = props;
-	let wellsite = wellsites.filter(w => w.id == wellsiteId)[0];
+	let wellsite = wellsites.filter(w => w.id == wellsiteId)[0],
+		wellsiteName = props.wellsites.filter(w => w.id == wellsiteId)[0].name
 
 	let buttonToolbar = <div><Button bsStyle="success">OK</Button>
 				<Link to={'/wellsites/byGrid/view/' + wellsiteId} className="btn btn-default">Cancel</Link></div>,
@@ -19,7 +20,7 @@ let Edit = (props) => {
 		<Col sm={6}>
 			<WellsitesGrid data={wellsites} baseUrl="/wellsites/byGrid" selectUrl="/wellsites/byGrid/edit" selectedId={wellsiteId} />
 			
-			<WellsiteWellsGrid data={wells}/>
+			<WellsiteWellsGrid data={wells} title={wellsiteName + " Wells"}/>
 		</Col>
 
 		<Col sm={6}>

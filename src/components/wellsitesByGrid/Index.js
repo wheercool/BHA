@@ -5,10 +5,8 @@ import connect from './connect'
 import WellsitesGrid from './WellsitesGrid'
 
 let Wellsites = (props) => {
-	return (<div>
-			
+	return (<div>			
 		<WellsitesGrid data={props.wellsites} baseUrl="/wellsites/byGrid"/>
-
 		</div>)
 }
 

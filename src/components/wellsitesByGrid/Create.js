@@ -9,7 +9,7 @@ import WellsiteEditor from '../WellsiteEditor'
 let Create = (props) => {
 	let wellsiteId = props.params.wellsiteId;
 	let buttonToolbar = <div><Button bsStyle="success">OK</Button>
-				<Link to={'/wellsites/byGrid/view/' + wellsiteId} className="btn btn-default">Cancel</Link></div>,
+				<Link to={'/wellsites/byGrid'} className="btn btn-default">Cancel</Link></div>,
 
 		addHeader = <div><Glyphicon glyph="plus"/> Add Wellsite</div>;
 

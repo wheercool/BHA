@@ -1,13 +1,19 @@
 import React from 'react'
 import {Col} from 'react-bootstrap'
 import {Link} from 'react-router'
-import List from '../DoubleList'
+import DoubleList from '../DoubleList'
 // import connect from './connect'
 import {connect} from 'react-redux'
+import {removeWellsite} from 'actions'
 let Wellsites = (props) => {
+	const {onDelete, wellsites} = props;
 	return (<div>			
 			<Col sm={12}>
-				<List data={props.wellsites} baseUrl="wellsites/byList" title="Wellsites" subTitle="Wells"/>
+				<DoubleList data={wellsites} 
+						baseUrl="wellsites/byList" 
+						title="Wellsites"
+						subTitle="Wells"
+						onDelete={onDelete}/>
 			</Col>
 
 		</div>)
@@ -26,6 +32,12 @@ let mapProps = (state) => {
 		wellsites: wellsites
 	}
 }
-let dispatch = (d) => {return {}}
+let mapDispatch = dispatch => {
+		return {
+			onDelete: id => {
+				dispatch(removeWellsite(id))
+			}
+		}
+}
 
-export default  connect(mapProps, dispatch)(Wellsites);
+export default  connect(mapProps, mapDispatch)(Wellsites);
