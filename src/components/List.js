@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import {ListGroup, ListGroupItem, Col, Glyphicon, Button, FormGroup, ControlLabel, FormControl, InputGroup} from 'react-bootstrap'
 import {Link} from 'react-router'
 import classNames from 'classNames'
-import Confirm from './Confirm'
 
 require('styles/List.css')
 
@@ -51,16 +50,15 @@ class List extends Component {
 				</FormGroup>
 				<ListGroup>
 					{filteredItems.map((w, idx) => <ListGroupItem key={idx} className={selectedId == w.id? "active" : ""}>
-							<div disabled={disabled} className={itemClassName} onClick={this.onDelete.bind(this, true)}><span className="text-danger" aria-hidden="true">&times;</span></div>
+							<div disabled={disabled} className={itemClassName} onClick={this.onDelete.bind(this, w.id)}><span className="text-danger" aria-hidden="true">&times;</span></div>
 							{selectedId == w.id? <span>{w.name}</span> : <span><Link to={baseUrl + '/view/' + w.id}>{w.name}</Link></span>}
 							<div className="clearfix"/>
 							</ListGroupItem>)}
 				</ListGroup>
-				<Confirm show={this.state.show} onNo={this.onDelete.bind(this, false)} onYes={this.onDelete}/>		
 		</div>)
 	}
-	onDelete(show) {
-		// this.setState({show: show})
+	onDelete(id) {
+		this.props.onDelete(id)
 	}
 	onFilterChanged(event) {
 		this.setState({

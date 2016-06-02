@@ -39,7 +39,7 @@ let WellsiteEditor = (props) => {
 
 WellsiteEditor = reduxForm({ // <----- THIS IS THE IMPORTANT PART!
   form: 'wellsite',                           // a unique name for this form
-  fields: ['id', 'name', 'city', 'address', 'postcode'] // all the fields in your form
+  fields: ['id', 'name', 'city', 'address', 'postcode', 'wells'] // all the fields in your form
 })(WellsiteEditor);
 
 

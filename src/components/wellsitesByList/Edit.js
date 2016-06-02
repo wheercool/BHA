@@ -8,7 +8,7 @@ import List from '../List'
 import {editWellsite} from 'actions'
 
 let Edit = props => {
-		const { params: {wellsiteId}, form,  onEdit}= props,
+		const { params: {wellsiteId}, form,  onEdit, onDelete}= props,
 			wellsite = props.wellsites.filter(w => w.id == wellsiteId)[0],
 			wellsiteName = wellsite.name;
 		const onEditButtonClick = () => {
@@ -35,7 +35,7 @@ let Edit = props => {
 				<Panel header={header} footer={buttonToolbar}>
 					<WellsiteEditor initialValues={wellsite}>						
 					</WellsiteEditor>
-					<List data={wellsite.wells} title="Wells"/>
+					<List data={wellsite.wells} title="Wells" onDelete={onDelete}/>
 				</Panel>
 				
 			</Col>
@@ -44,6 +44,7 @@ let Edit = props => {
 }
 
 let mapProps = (state) => {
+	debugger;
 	var wellsites = state.main.wellsites.map(w => ({
 		id: w.id,
 		name: w.name,
@@ -63,6 +64,9 @@ let mapDispatch = (dispatch) => {
 		return {
 			onEdit: (item) => {
 				dispatch(editWellsite(item, '/wellsites/byList'))
+			},
+			onDelete: id => {
+				dispatch(removeWell(id))
 			}
 		}
 	};

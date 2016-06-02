@@ -21,6 +21,16 @@ export function removeWellsite(id) {
 }
 
 
+
+export function removeWell(id) {
+	return {
+		type: actionTypes.removeWell,
+		payload: {
+			id: id
+		}		
+	}
+}
+
 export function addWellsite(wellsite, redirectUrl) {
 	return dispatch => {
 		dispatch({

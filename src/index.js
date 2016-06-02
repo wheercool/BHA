@@ -1,3 +1,5 @@
+require('styles/gridPlugin.css')
+
 import 'core-js/fn/object/assign';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -28,6 +30,7 @@ import WellsitesByListDelete from './components/wellsitesByList/Delete'
 //By Grid
 import WellsitesByGridIndex from './components/wellsitesByGrid/Index'
 import WellsitesByGridDetail from './components/wellsitesByGrid/Detail'
+import WellsitesByGridDetail2 from './components/wellsitesByGrid/Detail2'
 import WellsitesByGridEdit from './components/wellsitesByGrid/Edit'
 import WellsitesByGridCreate from './components/wellsitesByGrid/Create'
 
@@ -66,6 +69,7 @@ ReactDOM.render((<Provider store={store}>
 								<Route path="byGrid">
 									<IndexRoute component={WellsitesByGridIndex}/>
 									<Route path="view/:wellsiteId" component={WellsitesByGridDetail} />	
+									<Route path="view/:wellsiteId/:wellId" component={WellsitesByGridDetail2} />	
 									<Route path="edit/:wellsiteId" component={WellsitesByGridEdit} />	
 									<Route path="add/" component={WellsitesByGridCreate} />	
 								</Route>
