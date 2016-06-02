@@ -75,73 +75,54 @@ const defaultState = {
 		name: 'Well 1',
 		nsOffset: 10,
 		ewOffset: 10,
-		motherbore: 'Wellbore 1'
+		motherbore: 1
 	},{
 		id: 2,
 		wellsiteId: 1,
 		name: 'Well 2',
 		nsOffset: 10,
 		ewOffset: 10,
-		motherbore: 'Wellbore 1'
+		motherbore: 1
 	},{
 		id: 3,
 		wellsiteId: 1,
 		name: 'Well 3',
 		nsOffset: 10,
 		ewOffset: 10,
-		motherbore: 'Wellbore 1'
+		motherbore: 1
 	},{
 		id: 4,
 		wellsiteId: 1,
 		name: 'Well 4',
 		nsOffset: 10,
 		ewOffset: 10,
-		motherbore: 'Wellbore 1'
-	},{
-		id: 4,
-		wellsiteId: 1,
-		name: 'Well 4',
-		nsOffset: 10,
-		ewOffset: 10,
-		motherbore: 'Wellbore 1'
-	},{
-		id: 4,
-		wellsiteId: 1,
-		name: 'Well 4',
-		nsOffset: 10,
-		ewOffset: 10,
-		motherbore: 'Wellbore 1'
-	},{
-		id: 4,
-		wellsiteId: 1,
-		name: 'Well 4',
-		nsOffset: 10,
-		ewOffset: 10,
-		motherbore: 'Wellbore 1'
-	},{
-		id: 4,
-		wellsiteId: 1,
-		name: 'Well 4',
-		nsOffset: 10,
-		ewOffset: 10,
-		motherbore: 'Wellbore 1'
-	},{
-		id: 4,
-		wellsiteId: 1,
-		name: 'Well 4',
-		nsOffset: 10,
-		ewOffset: 10,
-		motherbore: 'Wellbore 1'
-	},{
-		id: 4,
-		wellsiteId: 1,
-		name: 'Well 4',
-		nsOffset: 10,
-		ewOffset: 10,
-		motherbore: 'Wellbore 1'
+		motherbore: 1
 	}],
 	wellbores: [{
+		id: 1,
 		name: 'Wellbore 1',
+		parentId: -1,
+		isSelected: true,
+		trajectory: converter(incomingData).map(x => x.map(d => d/20)),
+		color: '#F17013'
+	},{
+		id: 2,
+		name: 'Wellbore 2',
+		parentId: 1,
+		isSelected: true,
+		trajectory: converter(incomingData).map(x => x.map(d => d/20)),
+		color: '#F17013'
+	},{
+		id: 3,
+		name: 'Wellbore 3',
+		parentId: 1,
+		isSelected: true,
+		trajectory: converter(incomingData).map(x => x.map(d => d/20)),
+		color: '#F17013'
+	},{
+		id: 4,
+		name: 'Wellbore 4',
+		parentId: 2,
 		isSelected: true,
 		trajectory: converter(incomingData).map(x => x.map(d => d/20)),
 		color: '#F17013'
