@@ -5,6 +5,7 @@ import connect from './connect'
 import WellsitesGrid from './WellsitesGrid'
 import WellsiteWellsGrid from './WellsiteWellsGrid'
 
+
 let Wellsites = (props) => {
 	let wellsiteId = props.params.wellsiteId,
 		wellsiteName = props.wellsites.filter(w => w.id == wellsiteId)[0].name;
@@ -15,7 +16,9 @@ let Wellsites = (props) => {
 						baseUrl="/wellsites/byGrid"
 						selectedId={wellsiteId} />
 		
-		<WellsiteWellsGrid data={props.wells} title={wellsiteName + " Wells"}/>
+		<WellsiteWellsGrid 	data={props.wells} 
+							title={wellsiteName + " Wells"}
+							baseUrl={'/wellsites/byGrid/view/' + wellsiteId}/>
 
 		</div>)
 }

@@ -70,6 +70,7 @@ ReactDOM.render((<Provider store={store}>
 									<IndexRoute component={WellsitesByGridIndex}/>
 									<Route path="view/:wellsiteId" component={WellsitesByGridDetail} />	
 									<Route path="view/:wellsiteId/:wellId" component={WellsitesByGridDetailDeep} />	
+									<Route path="view/:wellsiteId/:wellId/:wellboreId" component={WellsitesByGridDetailDeep} />	
 									<Route path="edit/:wellsiteId" component={WellsitesByGridEdit} />	
 									<Route path="add/" component={WellsitesByGridCreate} />	
 								</Route>

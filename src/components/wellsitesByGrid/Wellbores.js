@@ -3,16 +3,21 @@ require('styles/wellbores.css')
 
 import React from 'react'
 import Tree, {TreeNode} from 'rc-tree';
-import {Link} from 'react-router'
+import {Link, hashHistory} from 'react-router'
+
 import {Panel, Col, Tabs, Tab, ButtonGroup, Button, FormGroup,
 		 InputGroup, Glyphicon, FormControl, Radio,
 		 Table} from 'react-bootstrap'
 import WellboreForm from '../WellboreForm'
 import Trajectory from '../Trajectory'
 
-const Wellbores = props => {
-	const {wellbores, motherbore} = props;
+let onClick = (id, baseUrl) => {
+	hashHistory.push(baseUrl + '/' + id)
+}
 
+
+const Wellbores = props => {
+	const {wellbores, motherbore, wellbore = {id: ""}, baseUrl, disabled} = props;
 	const loop = (list, item) => {
 		let children = list.filter(x => x.parentId == item.id);
 		if (!children.length) return <TreeNode title={item.name} key={item.id} />;
@@ -21,7 +26,7 @@ const Wellbores = props => {
 			{children.map(child => loop(list, child))}
 		</TreeNode>
 	};
-	const wellboresLoop = loop.bind(null, wellbores);
+	const wellboresLoop = wellbores.length ? loop.bind(null, wellbores): () => <div></div>;
 	let header = <FormGroup >
 
 				 	<InputGroup >
@@ -47,18 +52,20 @@ const Wellbores = props => {
 	};
 
 	const buttonToolbar = <ButtonGroup>
-		<Button>Add</Button>
-		<Button>Delete</Button>
+		<Button bsStyle="success">Add</Button>
+		<Button bsStyle="default">Edit</Button>
+		<Button bsStyle="danger">Delete</Button>
 	</ButtonGroup>
 	const propertiesButtonToolbar = <div><ButtonGroup className="pull-right">
-		<Button>Edit</Button>
+		<Button bsStyle="primary">OK</Button>
+		<Button>Cancel</Button>
 	</ButtonGroup>
 	<div className="clearfix" /></div>
 
 	return (<div className="wellbores">
 		<Col sm={4}>
 		<Panel style={heightStyle} header={header} footer={buttonToolbar}>
-			<Tree className="myCls" showLine onSelect={()=>{debugger}}>
+			<Tree className="myCls" showLine onSelect={(selectedKeys)=>{onClick(selectedKeys[0], baseUrl)}} selectedKeys={[wellbore.id.toString()]}>
 	           {wellboresLoop(motherbore)}
 	        </Tree>
         </Panel>
@@ -68,7 +75,7 @@ const Wellbores = props => {
         	<Tabs id="uncontrolled">
         		<Tab eventKey={1} title="Info">
         			<br />
-					<WellboreForm/>
+					<WellboreForm disabled={disabled} initialValues={wellbore}/>
         		</Tab>
         		<Tab eventKey={2} title="Trajectory">
 					<br />

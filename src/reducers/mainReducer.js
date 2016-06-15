@@ -100,13 +100,19 @@ const defaultState = {
 	}],
 	wellbores: [{
 		id: 1,
+		wellsiteId: 1,
+		wellId: 1,
 		name: 'Wellbore 1',
+		shortName: 'WB1',
+		description: 'Description',
 		parentId: -1,
 		isSelected: true,
 		trajectory: converter(incomingData).map(x => x.map(d => d/20)),
 		color: '#F17013'
 	},{
 		id: 2,
+		wellsiteId: 1,
+		wellId: 1,
 		name: 'Wellbore 2',
 		parentId: 1,
 		isSelected: true,
@@ -114,6 +120,8 @@ const defaultState = {
 		color: '#F17013'
 	},{
 		id: 3,
+		wellsiteId: 1,
+		wellId: 1,
 		name: 'Wellbore 3',
 		parentId: 1,
 		isSelected: true,
@@ -121,6 +129,8 @@ const defaultState = {
 		color: '#F17013'
 	},{
 		id: 4,
+		wellsiteId: 1,
+		wellId: 1,
 		name: 'Wellbore 4',
 		parentId: 2,
 		isSelected: true,
