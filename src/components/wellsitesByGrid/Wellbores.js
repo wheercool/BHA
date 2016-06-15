@@ -79,11 +79,15 @@ const Wellbores = props => {
         		</Tab>
         		<Tab eventKey={2} title="Trajectory">
 					<br />
-					<ButtonGroup>
-						<Button>Import</Button>
-						<Button>Clear All</Button>
-					</ButtonGroup>
+					
 					<Trajectory points={points.rows} />
+					<ButtonGroup className="grid-btn-group">
+						<Button>Add Before</Button>
+						<Button>Add After</Button>
+						<Button>Edit</Button>
+						<Button>Delete</Button>
+						<Button>Import</Button>
+					</ButtonGroup>
 
         		</Tab>
         		<Tab eventKey={3} title="Completion">

@@ -9,3 +9,8 @@
     border-left: 1px solid #e7e7e7;
     min-height: 333px;
 }
+
+.grid-btn-group a {
+	font-size: large;
+	padding: 10px;
+}
