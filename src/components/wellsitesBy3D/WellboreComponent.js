@@ -8,9 +8,9 @@ require('styles//Wellbore.css');
 class WellboreComponent extends React.Component {
   constructor(props = '#000000') {
     super();
-    this.state = {    	
+    this.state = {
 	    displayColorPicker: false,
-	    color: props.color,
+	    color: props.color
     };
   }
 
@@ -19,13 +19,13 @@ class WellboreComponent extends React.Component {
   }
 
   handleClose() {
-    this.setState({ displayColorPicker: false });  
+    this.setState({ displayColorPicker: false });
   }
 
   handleChange(color) {
-    this.setState({ color: '#' + color.hex });    
+    this.setState({ color: '#' + color.hex });
   }
-  handleColorChanged(hide) {   
+  handleColorChanged(hide) {
     this.props.onColorChanged(this.props.name, this.state.color)
     this.setState({
       displayColorPicker: !hide
@@ -41,26 +41,26 @@ class WellboreComponent extends React.Component {
               <div className="">
               
 
-               <input type="checkbox" 
-                      onChange={this.props.onChanged.bind(this, this.props.name)} 
+               <input type="checkbox"
+                      onChange={this.props.onChanged.bind(this, this.props.name)}
                       checked={this.props.isSelected}></input>
                       <span>&nbsp;{this.props.name}</span>
                 <div style={{
-                        backgroundColor: this.props.color,                        
+                        backgroundColor: this.props.color
                   }}
 
                   className="color-picker-btn pull-right"
-                  onClick={handleClick}></div> 
+                  onClick={handleClick}></div>
             </div>
 
               
 
               <div style={{display:this.state.displayColorPicker?'block':'none', width: '100%'}}>
-              <ColorPicker color={this.state.color}                           
-                          type="slider" 
+              <ColorPicker color={this.state.color}
+                          type="slider"
                           onClose={handleClose}
                           onChange={handleChange}
-                          onChangeComplete={this.handleColorChanged.bind(this, false)} />
+                          onChangeComplete={handleColorChanged(false)} />
                           <div className="text-center">
                             <button className="btn btn-default" onClick={handleClose}>Cancel</button>
                             <button className="btn btn-primary" onClick={this.handleColorChanged.bind(this, true)}>OK</button>

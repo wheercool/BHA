@@ -51,24 +51,13 @@ var expectedResult = [
 
 
 
-const defaultState = {	
+var defaultState = {	
+	wellsitesLoading: false,
 	fullScreenModeProjectionIndex: -1,
 	projects: [{
 		name: 'Project 1'
 	}],
-	wellsites: [{
-		id: 1,
-		name: 'Wellsite1',
-		city: 'Berlin',
-		address: 'Heine 12',
-		postcode: '123H3'	
-	}, {
-		id: 2,
-		name: 'Wellsite2',
-		city: 'Moscow',
-		address: "Pushkin St - 12",
-		postcode: '12'
-	}],
+	wellsites: [],
 	wells: [{
 		id: 1,
 		wellsiteId: 1,
@@ -139,10 +128,33 @@ const defaultState = {
 	}]
 };
 
+// for (let i = 0; i < 500; i++) {
+// 	defaultState.wellsites.push({
+// 		id: defaultState.wellsites.length + 1,
+// 		name: 'Wellsite ' + i,
+// 		city: 'test ' + i,
+// 		address: 'Heine 12-' + i,
+// 		postcode: '123H3'	
+// 	});
+// }
 let mainReducer = (state = defaultState, action) => {
 	switch (action.type) {
 
 	 	
+		case actionTypes.wellsitesLoading:
+			return {
+				wellsites: state.wellsites,
+				wells: state.wells,
+				wellsitesLoading: true
+			}
+
+		case actionTypes.wellsitesLoaded:
+			return {
+				wellsites: action.payload.data,
+				wells: state.wells,
+				wellsitesLoading: false,
+				wellsitesTotalPages: action.payload.totalPages
+			}
 
 		case actionTypes.addWellsite: 
 			let newId = Math.max.apply(null, state.wellsites.map(w => w.id)) + 1,

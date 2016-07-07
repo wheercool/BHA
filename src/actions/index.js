@@ -1,6 +1,29 @@
 import {Link, hashHistory} from 'react-router'
 import actionTypes  from './actionTypes'
+import wellsiteService from '../services/wellsite'
 
+export function getWellsites(page = 1, filter = '') {
+	return dispatch => {
+			dispatch({
+				type: actionTypes.wellsitesLoading
+
+			});
+
+		wellsiteService.get(page, filter)
+			.then(d => {
+				// debugger;
+				dispatch({
+					type: actionTypes.wellsitesLoaded,
+					payload: {
+						page: page,
+						filter: filter,
+						totalPages: d.totalPages,
+						data: d.data
+					}
+				})
+			});
+	}
+}
 export function editWellsite(wellsite, redirectUrl) {
 	return dispatch => {
 		dispatch({

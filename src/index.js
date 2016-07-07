@@ -3,10 +3,10 @@ require('styles/gridPlugin.css')
 import 'core-js/fn/object/assign';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createStore,  combineReducers, applyMiddleware} from 'redux'
+import { createStore,  applyMiddleware} from 'redux'
 import { syncHistoryWithStore } from 'react-router-redux'
 import { Provider } from 'react-redux'
-import { Router, Route, IndexRoute, IndexRedirect, browserHistory, hashHistory } from 'react-router'
+import { Router, Route, IndexRoute, IndexRedirect, hashHistory } from 'react-router'
 import thunkMiddleware from 'redux-thunk'
 
 import App from './reducers'
@@ -36,7 +36,6 @@ import WellsitesByGridCreate from './components/wellsitesByGrid/Create'
 
 
 //By 3D
-import BHA from './components/wellsitesBy3D/BHA'
 import WellsitesBy3DIndex from './components/wellsitesBy3D/Index'
 import WellsitesBy3DDetail from './components/wellsitesBy3D/Detail'
 
@@ -46,7 +45,7 @@ store.subscribe(() => console.log('STORE: ' + JSON.stringify(store.getState())))
 
 const history = syncHistoryWithStore(hashHistory, store)
 
-let Empty = (props) => {
+let Empty = (_) => {
 	
 	return (<div>Empty</div>)
 }

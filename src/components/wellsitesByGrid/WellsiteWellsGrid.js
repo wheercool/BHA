@@ -13,8 +13,7 @@ let onClick = (id, baseUrl) => {
 class WellsiteWellsGrid extends Component {
 	render() {
 		let props = this.props,
-			{title, baseUrl, selectedId} = props;
-			debugger;
+			{title, baseUrl, selectedId, data} = props;
 		let buttonToolbar = <ButtonGroup>
 				
 				<Button bsStyle="primary" disabled={!selectedId}>Edit</Button>
@@ -29,7 +28,7 @@ class WellsiteWellsGrid extends Component {
 				    </InputGroup>
 				</FormGroup>;
 
-		return (<Panel header={header} footer={buttonToolbar} bsStyle="default">
+		return (<Panel  header={header} footer={buttonToolbar} bsStyle="default">			
 			<Table hover >
 				<thead>
 					<tr>
@@ -42,8 +41,8 @@ class WellsiteWellsGrid extends Component {
 					</tr>
 				</thead>
 
-				<tbody>
-					{props.data.map((w, idx) =><tr key={idx} 
+				<tbody key="wellsite-wells-grid" ref="body" style={{height: data.length * 20}}>
+					{data.map((w, idx) =><tr key={idx} 
 							className={classNames({active: w.id == selectedId})} 
 							onClick={onClick.bind(null, w.id, baseUrl)}>
 							<td><input type="checkbox" checked={w.id == selectedId} readOnly/></td>
@@ -55,10 +54,13 @@ class WellsiteWellsGrid extends Component {
 						</tr>)}
 				</tbody>
 			</Table>
+		
 
 		
 		</Panel>)
 	}
+	
+	
 }
 
 

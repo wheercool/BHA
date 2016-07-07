@@ -6,7 +6,47 @@ import Confirm from './Confirm'
 require('styles/List.css')
 
 function match(filter) {
+
+
 	return (v) => filter == '' || v.name.startsWith(filter)
+}
+
+class ListItem extends Component {
+	constructor(props) {
+		super(props)
+	}
+	shouldComponentUpdate(nextProps) {
+		// return true;
+		return nextProps == this.props;	
+	}
+	render() {
+		console.log('==List Item==')
+		const {baseUrl, subTitle, selectedId, onCofirm, w} = this.props;
+		const header = (w) => {
+			return <div>
+				{removeButton(w.id)}
+				{link(w)}
+				<div className="clearfix" />
+			</div>
+		},
+		link = (w) => {
+			return selectedId == w.id? <span>{w.name}</span> : <span><Link to={baseUrl + '/view/' + w.id}>{w.name}</Link></span>
+		},
+		removeButton = (id) => {
+			return <div className="pull-right close" onClick={onCofirm}><span className="text-danger" aria-hidden="true">&times;</span></div>
+		};
+
+		return <Panel 
+				header={header(w)}
+				className={selectedId == w.id? "active" : ""}>
+
+				<div><Link to={baseUrl + '/edit/' + w.id}>
+						<Glyphicon glyph="plus" className="text-success"/>
+					</Link> {subTitle}({w.wells.length}):</div>
+				{w.wells.map((well, wellIdx) => <Col key={wellIdx} sm={2}>{link(well)}</Col>)}
+						
+		</Panel>;
+	}
 }
 
 class List extends Component {
@@ -34,9 +74,18 @@ class List extends Component {
 				    </InputGroup>
 				</FormGroup>
 				<PanelGroup>
-
+						{
+							filteredItems.map((w, idx) => <ListItem  
+																	key={idx}
+																	w={w}
+																	idx={idx}
+																	selectedId={selectedId}
+																	baseUrl={baseUrl}
+																	subTitle={subTitle}
+																	onCofirm={this.onCofirm.bind(this, true, w.id)}/>)
+						}
 					
-						{filteredItems.map((w, idx) => <Panel key={idx} 
+						{/* filteredItems.map((w, idx) => <Panel key={idx} 
 											header={this.header(w)}
 											className={selectedId == w.id? "active" : ""}>
 								
@@ -45,7 +94,8 @@ class List extends Component {
 												</Link> {subTitle}({w.wells.length}):</div>
 											{w.wells.map((well, wellIdx) => <Col key={wellIdx} sm={2}>{this.link(well)}</Col>)}
 								
-								</Panel>)}
+								</Panel>)
+						*/}
 					
 				</PanelGroup>
 				<Confirm show={this.state.show} onNo={this.onCofirm.bind(this, false)} onYes={this.onDelete.bind(this)}/>		

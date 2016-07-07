@@ -1,6 +1,6 @@
 require('styles/trajectory.css')
 import React, {Component} from 'react'
-import {Table, Glyphicon, ButtonGroup, Button, FormControl} from 'react-bootstrap'
+import {Table, FormControl} from 'react-bootstrap'
 
 class Trajectory extends Component {
 
@@ -15,7 +15,7 @@ class Trajectory extends Component {
 
 		return <Table bordered>
 			<thead>
-				<tr>					
+				<tr>
 					<th className="actions-column">Select</th>
 					<th>Depth Measure</th>
 					<th>Inclination</th>
@@ -37,7 +37,7 @@ class Trajectory extends Component {
 					<td>{p[2]}</td>
 					
 					
-				</tr>): 
+				</tr>):
 				(<tr key={idx}>
 					<td className="actions-column"></td>
 					{ /* <td className="actions-column editable">
@@ -47,11 +47,11 @@ class Trajectory extends Component {
 						<a href="#" onClick={this.onEdit.bind(this, -1)} className="text-danger">
 							<Glyphicon  glyph="remove-circle"/></a>
 					</td>
-					*/ 
+					*/
 					}
 					<td><FormControl type="text" defaultValue={p[0]}/></td>
 					<td><FormControl type="text" defaultValue={p[1]}/></td>
-					<td><FormControl type="text" defaultValue={p[2]}/></td>					
+					<td><FormControl type="text" defaultValue={p[2]}/></td>
 					
 				</tr>) ))
 				}
@@ -65,8 +65,8 @@ class Trajectory extends Component {
 			editId: id
 		})
 	}
-	onMove(id, e) {
-		
+	onMove() {
+
 	}
 }
 

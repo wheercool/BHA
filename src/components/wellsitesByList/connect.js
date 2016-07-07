@@ -14,6 +14,6 @@ let defaultMapProps = (state) => {
 let result = {
 	defaultMapProps: defaultMapProps,
 	id: id,
-	defaultConnect: connect(defaultMapProps, mapDispatch)
+	defaultConnect: connect(defaultMapProps, mapDispatch)	
 };
 export default result

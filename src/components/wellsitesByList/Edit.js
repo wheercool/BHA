@@ -44,7 +44,6 @@ let Edit = props => {
 }
 
 let mapProps = (state) => {
-	debugger;
 	var wellsites = state.main.wellsites.map(w => ({
 		id: w.id,
 		name: w.name,

@@ -4,11 +4,13 @@ import {Link} from 'react-router'
 import {connect} from 'react-redux'
 import WellsitesGrid from './WellsitesGrid'
 import WellsiteWellsGrid from './WellsiteWellsGrid'
-
 import Wellbores from './Wellbores'
 
+
+
+
 let Wellsites = (props) => {
-	const {params: { wellsiteId, wellId, wellboreId}, wellsites, wells, wellbores} = props,
+	const {params: { wellsiteId, wellId, wellboreId}, wellsites, wells, wellbores, wellsites_page, wellsites_filter} = props,
 		wellsite = wellsites.filter(w => w.id == wellsiteId)[0],
 		wellsiteName = wellsite.name,		
 		wellbore = wellbores.filter(w => w.id == wellboreId)[0],
@@ -19,7 +21,10 @@ let Wellsites = (props) => {
 			
 		<WellsitesGrid 	data={props.wellsites} 
 						baseUrl="/wellsites/byGrid"
-						selectedId={wellsiteId} />
+						selectedId={wellsiteId} 
+						page={wellsites_page}
+						totalPages={10}
+						filter={wellsites_filter}/>
 		
 		<WellsiteWellsGrid 	data={props.wells} 
 							title={wellsiteName + " Wells"}
@@ -34,20 +39,25 @@ let Wellsites = (props) => {
 		</div>)
 }
 
-let defaultMapProps = (state, props) => {
-		
+let defaultMapProps = (state, props) => {		
 		let wellsites = state.main.wellsites,
+			{wellsites_page = 0, wellsites_filter = ''} = props.location.query,
 			wellsiteId = props.params.wellsiteId,
 			wellId = props.params.wellId,
 			wells = wellsiteId? state.main.wells.filter(w => w.wellsiteId == wellsiteId): [];			
 		return {
 			wellsites: wellsites,
 			wells: wells,
-			wellbores: state.main.wellbores.filter(w => w.wellsiteId == wellsiteId && w.wellId == wellId)
+			wellbores: state.main.wellbores.filter(w => w.wellsiteId == wellsiteId && w.wellId == wellId),
+			wellsites_page: wellsites_page,
+			wellsites_filter: wellsites_filter
 
 		}
 	},
 	id = x => x,
-	mapDispatch = (dispath) => { return {}};
+	mapDispatch = (dispath) => { 
+		
+		return {}
+	};
 
 export default  connect(defaultMapProps, mapDispatch )(Wellsites);

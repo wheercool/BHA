@@ -5,6 +5,7 @@ tbody {
     display:block;
     min-height: 150px;
     max-height: 250px;
+    position: relative;
     overflow:auto;
 }
 thead, tbody tr {
@@ -12,6 +13,18 @@ thead, tbody tr {
     width:100%;
     table-layout:fixed;
 }
+
 thead {
     width: calc( 100% - 1em )
+}
+
+.extender {
+	position: absolute;
+	top: 0;
+	visibility: hidden;
+	height: 0;
+}
+
+.pagination {
+    margin: 0;
 }

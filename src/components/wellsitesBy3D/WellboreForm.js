@@ -1,19 +1,19 @@
 'use strict';
 import React from 'react';
 import parse from 'csv-parse';
-import {FormGroup, FormControl} from 'react-bootstrap'
+
 let id = 0;
 class WellboreForm extends React.Component{
-  constructor(props = '#000000') {
+  constructor() {
     super();
-    this.state = {      
+    this.state = {
       trajectory: []
     };
   }
   render() {
     var dataImported = this.state.trajectory.length > 0,
-        alertType =  dataImported? "alert alert-success": "alert alert-warning",
-        alertMessage = dataImported? "Done": (<div><strong>Warning!</strong> Import trajectory from csv file</div>);
+        alertType =  dataImported? 'alert alert-success': 'alert alert-warning',
+        alertMessage = dataImported? 'Done': (<div><strong>Warning!</strong> Import trajectory from csv file</div>);
 
     return (<div>
        <div className="form-group">
@@ -25,7 +25,7 @@ class WellboreForm extends React.Component{
       <div className="btn-group">
         <button className="btn btn-default" onClick={this.onImport.bind(this)}>Import</button>
         <button className="btn btn-default" disabled={!dataImported} onClick={this.onWellboreAdded.bind(this)}>Add</button>
-      </div> 
+      </div>
     </div>);
   }
   onImport() {
@@ -48,7 +48,6 @@ class WellboreForm extends React.Component{
     if (!browserSupportFileUpload()) {
           alert('The File APIs are not fully supported in this browser!');
     } else {
-      var data = null;
       var file = evt.target.files[0];
       var reader = new FileReader();
       reader.readAsText(file);
